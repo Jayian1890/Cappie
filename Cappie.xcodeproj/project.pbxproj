@@ -11,12 +11,27 @@
 		6955308E2709DA9800ADC97A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6955308D2709DA9800ADC97A /* ContentView.swift */; };
 		695530902709DA9B00ADC97A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6955308F2709DA9B00ADC97A /* Assets.xcassets */; };
 		695530932709DA9B00ADC97A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 695530922709DA9B00ADC97A /* Preview Assets.xcassets */; };
-		6955309C2709ED7400ADC97A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6955309B2709ED7400ADC97A /* AVFoundation.framework */; platformFilter = maccatalyst; };
 		695530A02709FFD200ADC97A /* CameraPreviewInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6955309F2709FFD200ADC97A /* CameraPreviewInternal.swift */; };
 		695530A2270A004C00ADC97A /* CameraPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695530A1270A004C00ADC97A /* CameraPreview.swift */; };
 		695530A4270A02DD00ADC97A /* DeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695530A3270A02DD00ADC97A /* DeviceManager.swift */; };
+		6983EA52270A5B5700F15C14 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6955309B2709ED7400ADC97A /* AVFoundation.framework */; platformFilter = maccatalyst; };
+		6983EA53270A5B5700F15C14 /* AVFoundation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6955309B2709ED7400ADC97A /* AVFoundation.framework */; platformFilter = maccatalyst; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		69DCE144270A4BF8004389EB /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69DCE143270A4BF8004389EB /* MainMenu.xib */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6983EA54270A5B5700F15C14 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				6983EA53270A5B5700F15C14 /* AVFoundation.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		695530882709DA9800ADC97A /* Cappie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cappie.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -38,7 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6955309C2709ED7400ADC97A /* AVFoundation.framework in Frameworks */,
+				6983EA52270A5B5700F15C14 /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,6 +120,7 @@
 				695530842709DA9800ADC97A /* Sources */,
 				695530852709DA9800ADC97A /* Frameworks */,
 				695530862709DA9800ADC97A /* Resources */,
+				6983EA54270A5B5700F15C14 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
