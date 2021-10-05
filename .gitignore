@@ -1,3 +1,5 @@
-
+## Directory settings
 .DS_Store
-*.xcuserstate
+
+## User settings
+xcuserdata/
