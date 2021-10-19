@@ -15,7 +15,7 @@ class DevicesManager: ObservableObject {
     @Published var devices: [AVCaptureDevice] = []
 
     private init() {
-        let session = AVCaptureDevice.DiscoverySession(deviceTypes: [.externalUnknown],
+        let session = AVCaptureDevice.DiscoverySession(deviceTypes: [.externalUnknown, .builtInWideAngleCamera],
                                                        mediaType: .video,
                                                        position: .unspecified)
         devices = session.devices
