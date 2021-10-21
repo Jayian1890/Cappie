@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AVFoundation
+import SimplyCoreAudio
 
 struct ContentView: View {
     @State var selectedDevice = AVCaptureDevice.default(.externalUnknown, for: AVMediaType.video, position: .unspecified)
@@ -34,27 +35,38 @@ struct ContentView: View {
     }
     
     func cameraPreview(device: Binding<AVCaptureDevice?>) -> AnyView {
+        checkCameraPermissions()
         return AnyView(CameraPreview(captureDevice: device))
+    }
+    
+    let simplyCA = SimplyCoreAudio()
+    var audioPlayer: AVAudioPlayer?
+    @State var selectedAudioDevice = SimplyCoreAudio().defaultInputDevice
+    
+    func audioPreview(input: Binding<AudioDevice?>) -> AnyView {
+        audioPlayer?.currentDevice = selectedAudioDevice?.uid
+        audioPlayer?.play()
+        return AnyView(Text(""))
     }
     
     var body: some View {
         VStack {
-            /*Picker(selection: $selectedDevice.animation(.linear), label: Text("Camera")) {
-                ForEach(manager.devices, id: \.self) { device in
-                    Text(device.localizedName).tag(device as AVCaptureDevice?)
+            audioPreview(input: $selectedAudioDevice)
+            cameraPreview(device: $selectedDevice)
+            
+            HStack {
+                Picker(selection: $selectedDevice.animation(.linear), label: Text("")) {
+                    ForEach(manager.devices, id: \.self) { device in
+                        Text(device.localizedName).tag(device as AVCaptureDevice?)
+                    }
+                }
+                Picker(selection: $selectedAudioDevice, label: Text("")) {
+                    ForEach(simplyCA.allInputDevices, id: \.self) { device in
+                        Text(device.name).tag(device as AudioDevice?)
+                    }
                 }
             }
-            .onAppear {
-                DevicesManager.shared.startMonitoring()
-            }
-            .onDisappear {
-                DevicesManager.shared.stopMonitoring()
-            }
-            .padding(.top, 10.0)
-            .padding(.bottom, 5.0)
-            .padding(.horizontal, 10.0)
-            .foregroundColor(/*@START_MENU_TOKEN@*/Color("AccentColor")/*@END_MENU_TOKEN@*/)*/
-            cameraPreview(device: $selectedDevice)
+            .padding(.trailing, 7.0)
         }
         .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color(hue: 1.0, saturation: 0.0, brightness: 0.0)/*@END_MENU_TOKEN@*/)
     }
