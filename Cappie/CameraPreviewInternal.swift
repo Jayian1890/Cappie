@@ -5,6 +5,7 @@
 //  Created by Itay Brenner on 7/21/20.
 //  Copyright © 2020 Itaysoft. All rights reserved.
 //
+//  Modified by Jay T.
 
 import Foundation
 import Cocoa
@@ -14,7 +15,10 @@ class CameraPreviewInternal: NSView {
     var captureDevice: AVCaptureDevice?
     private var captureSession: AVCaptureSession
     private var previewLayer: AVCaptureVideoPreviewLayer!
+    private var audioSession: AVCaptureAudioPreviewOutput!
     private var captureInput: AVCaptureInput?
+    private var audioInput: AVCaptureInput?
+    private var audioDevice = AVCaptureDevice.default(for: .audio)!
 
     init(frame frameRect: NSRect, device: AVCaptureDevice?) {
         captureDevice = device
@@ -24,8 +28,21 @@ class CameraPreviewInternal: NSView {
 
         configureDevice(device)
         setupPreviewLayer(captureSession)
+        //setupAudioPreview()
         captureSession.startRunning()
     }
+    
+    /*/ Add audio input
+    private func setupAudioPreview() {
+        if let audioDevice = self.audioDevice {
+            self.audioInput = try AVCaptureDeviceInput(device: audioDevice)
+            if captureSession.canAddInput(self.audioInput!) {
+                captureSession.addInput(self.audioInput!)
+            } else {
+                throw CameraControllerError.inputsAreInvalid
+            }
+        }
+    }*/
 
     private func setupPreviewLayer(_ captureSession: AVCaptureSession) {
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
