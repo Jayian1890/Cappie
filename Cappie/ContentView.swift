@@ -7,12 +7,13 @@
 
 import SwiftUI
 import AVFoundation
-import SimplyCoreAudio
 
 struct ContentView: View {
-    @State var selectedDevice = AVCaptureDevice.default(.externalUnknown, for: AVMediaType.video, position: .unspecified)
+    @State var videoDevice = AVCaptureDevice.default(for: AVMediaType.video)
+    @State var audioDevice = AVCaptureDevice.default(for: AVMediaType.audio)
 
-    @ObservedObject var manager = DevicesManager.shared
+    @ObservedObject var videoManager = DevicesManager.init(session: AVCaptureDevice.DiscoverySession(deviceTypes: [.externalUnknown], mediaType: .video, position: .unspecified))
+    @ObservedObject var audioManager = DevicesManager.init(session: AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInMicrophone], mediaType: .audio, position: .unspecified))
     
     func checkCameraPermissions() {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
@@ -39,30 +40,28 @@ struct ContentView: View {
         return AnyView(CameraPreview(captureDevice: device))
     }
     
-    let simplyCA = SimplyCoreAudio()
     var audioPlayer: AVAudioPlayer?
-    @State var selectedAudioDevice = SimplyCoreAudio().defaultInputDevice
     
-    func audioPreview(input: Binding<AudioDevice?>) -> AnyView {
-        audioPlayer?.currentDevice = selectedAudioDevice?.uid
+    func audioPreview(input: Binding<AVCaptureDevice?>) -> AnyView {
+        audioPlayer?.currentDevice = audioDevice?.uniqueID
         audioPlayer?.play()
         return AnyView(Text(""))
     }
     
     var body: some View {
         VStack {
-            audioPreview(input: $selectedAudioDevice)
-            cameraPreview(device: $selectedDevice)
+            cameraPreview(device: $videoDevice)
+            //audioPreview(input: $audioDevice)
             
             HStack {
-                Picker(selection: $selectedDevice.animation(.linear), label: Text("")) {
-                    ForEach(manager.devices, id: \.self) { device in
+                Picker(selection: $videoDevice.animation(.linear), label: Text("")) {
+                    ForEach(videoManager.devices, id: \.self) { device in
                         Text(device.localizedName).tag(device as AVCaptureDevice?)
                     }
                 }
-                Picker(selection: $selectedAudioDevice, label: Text("")) {
-                    ForEach(simplyCA.allInputDevices, id: \.self) { device in
-                        Text(device.name).tag(device as AudioDevice?)
+                Picker(selection: $audioDevice.animation(.linear), label: Text("")) {
+                    ForEach(audioManager.devices, id: \.self) { device in
+                        Text(device.localizedName).tag(device as AVCaptureDevice?)
                     }
                 }
             }

@@ -20,6 +20,10 @@ class DevicesManager: ObservableObject {
                                                        position: .unspecified)
         devices = session.devices
     }
+    
+    public init(session: AVCaptureDevice.DiscoverySession) {
+        devices = session.devices
+    }
 
     func startMonitoring() {
         NotificationCenter.default.addObserver(self,

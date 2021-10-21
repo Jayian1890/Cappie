@@ -127,6 +127,8 @@
 			dependencies = (
 			);
 			name = Cappie;
+			packageProductDependencies = (
+			);
 			productName = Cappie;
 			productReference = 695530882709DA9800ADC97A /* Cappie.app */;
 			productType = "com.apple.product-type.application";
@@ -155,6 +157,8 @@
 				Base,
 			);
 			mainGroup = 6955307F2709DA9700ADC97A;
+			packageReferences = (
+			);
 			productRefGroup = 695530892709DA9800ADC97A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
