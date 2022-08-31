@@ -11,6 +11,7 @@
 		776187B428BDD32C006AEB5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 776187B328BDD32C006AEB5E /* Assets.xcassets */; };
 		776187B728BDD32C006AEB5E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 776187B528BDD32C006AEB5E /* MainMenu.xib */; };
 		776187E928BE6517006AEB5E /* DeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776187E828BE6517006AEB5E /* DeviceManager.swift */; };
+		776187EF28BF9E41006AEB5E /* DeviceInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776187EE28BF9E41006AEB5E /* DeviceInterface.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +21,7 @@
 		776187B628BDD32C006AEB5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		776187E828BE6517006AEB5E /* DeviceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceManager.swift; sourceTree = "<group>"; };
 		776187ED28BEE3FF006AEB5E /* Cappie.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Cappie.entitlements; sourceTree = "<group>"; };
+		776187EE28BF9E41006AEB5E /* DeviceInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInterface.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 			children = (
 				776187B128BDD32B006AEB5E /* AppDelegate.swift */,
 				776187E828BE6517006AEB5E /* DeviceManager.swift */,
+				776187EE28BF9E41006AEB5E /* DeviceInterface.swift */,
 				776187B528BDD32C006AEB5E /* MainMenu.xib */,
 				776187B328BDD32C006AEB5E /* Assets.xcassets */,
 				776187ED28BEE3FF006AEB5E /* Cappie.entitlements */,
@@ -131,6 +134,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				776187EF28BF9E41006AEB5E /* DeviceInterface.swift in Sources */,
 				776187B228BDD32B006AEB5E /* AppDelegate.swift in Sources */,
 				776187E928BE6517006AEB5E /* DeviceManager.swift in Sources */,
 			);
