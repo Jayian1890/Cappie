@@ -1,60 +1,92 @@
 //
-//  DeviceManager.swift
-//  CameraController
+//  DeviceAccess.swift
+//  Cappie.v1
 //
-//  Created by Itay Brenner on 7/19/20.
-//  Copyright © 2020 Itaysoft. All rights reserved.
+//  Created by Jared Terrance on 8/30/22.
 //
-import Combine
-import Foundation
+
+import Cocoa
 import AVFoundation
 
-class DevicesManager: ObservableObject {
-    static let shared = DevicesManager()
-
-    @Published var devices: [AVCaptureDevice] = []
-
-    private init() {
-        let session = AVCaptureDevice.DiscoverySession(deviceTypes: [.externalUnknown, .builtInWideAngleCamera],
-                                                       mediaType: .video,
-                                                       position: .unspecified)
-        devices = session.devices
+struct DeviceManager
+{
+    func setupConfiguration(devices: [AVCaptureDevice]! = nil) -> AVCaptureSession
+    {
+        var captureSession: AVCaptureSession = AVCaptureSession()
+        
+        switch AVCaptureDevice.authorizationStatus(for: .video)
+        {
+        case .authorized: // The user has previously granted access to the camera.
+            captureSession = setupCaptureSession(devices: devices)
+            
+        case .notDetermined: // The user has not yet been asked for camera access.
+            AVCaptureDevice.requestAccess(for: .video)
+            {
+                granted in
+                if granted
+                {
+                    captureSession = setupConfiguration(devices: devices)
+                }
+            }
+        case .restricted:
+            return captureSession
+        case .denied:
+            return captureSession
+        @unknown default:
+            return captureSession
+        }
+        
+        return captureSession
     }
     
-    public init(session: AVCaptureDevice.DiscoverySession) {
-        devices = session.devices
-    }
-
-    func startMonitoring() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(deviceAdded(notif:)),
-                                               name: NSNotification.Name.AVCaptureDeviceWasConnected,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(deviceRemoved(notif:)),
-                                               name: NSNotification.Name.AVCaptureDeviceWasDisconnected,
-                                               object: nil)
-    }
-
-    func stopMonitoring() {
-        NotificationCenter.default.removeObserver(self,
-                                                  name: NSNotification.Name.AVCaptureDeviceWasConnected,
-                                                  object: nil)
-    }
-
-    @objc func deviceAdded(notif: NSNotification) {
-        guard let device = notif.object as? AVCaptureDevice else {
-            return
+    func setupCaptureSession(devices: [AVCaptureDevice]! = nil) -> AVCaptureSession!
+    {
+        let captureSession = AVCaptureSession()
+        
+        captureSession.beginConfiguration()
+        
+        for device in devices {
+            let deviceInput = try? AVCaptureDeviceInput(device: device)
+            if captureSession.canAddInput(deviceInput!) {
+                captureSession.addInput(deviceInput!)
+            }
         }
-
-        devices.append(device)
+        
+        let deviceOutput = AVCaptureVideoDataOutput()
+        guard captureSession.canAddOutput(deviceOutput) else { return nil }
+        captureSession.sessionPreset = .high
+        captureSession.addOutput(deviceOutput)
+        
+        captureSession.commitConfiguration()
+        
+        captureSession.startRunning()
+        
+        return captureSession
     }
-
-    @objc func deviceRemoved(notif: NSNotification) {
-        guard let device = notif.object as? AVCaptureDevice,
-            let index = devices.firstIndex(of: device) else {
-            return
+    
+    internal static func getCaptureDevices(mediaType: AVMediaType = .video) -> [AVCaptureDevice]
+    {
+        var discoverySession: AVCaptureDevice.DiscoverySession
+        
+        switch mediaType
+        {
+        case .audio:
+            discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [
+                .builtInMicrophone
+            ], mediaType: .audio, position: .unspecified)
+            
+        case .video:
+            discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [
+                .builtInWideAngleCamera, .builtInMicrophone, .externalUnknown
+            ], mediaType: mediaType, position: .unspecified)
+            
+        default:
+            return [AVCaptureDevice]()
         }
-        devices.remove(at: index)
+        
+        if (discoverySession.devices.isEmpty)
+        { return [AVCaptureDevice]() }
+        
+        return discoverySession.devices
     }
 }

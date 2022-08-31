@@ -7,151 +7,96 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6947E82A271F2EF900D28ED1 /* SimplyCoreAudio in Frameworks */ = {isa = PBXBuildFile; productRef = 6947E829271F2EF900D28ED1 /* SimplyCoreAudio */; };
-		6955308C2709DA9800ADC97A /* CappieApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6955308B2709DA9800ADC97A /* CappieApp.swift */; };
-		6955308E2709DA9800ADC97A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6955308D2709DA9800ADC97A /* ContentView.swift */; };
-		695530902709DA9B00ADC97A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6955308F2709DA9B00ADC97A /* Assets.xcassets */; };
-		695530932709DA9B00ADC97A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 695530922709DA9B00ADC97A /* Preview Assets.xcassets */; };
-		695530A02709FFD200ADC97A /* CameraPreviewInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6955309F2709FFD200ADC97A /* CameraPreviewInternal.swift */; };
-		695530A2270A004C00ADC97A /* CameraPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695530A1270A004C00ADC97A /* CameraPreview.swift */; };
-		695530A4270A02DD00ADC97A /* DeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695530A3270A02DD00ADC97A /* DeviceManager.swift */; };
-		6983EA52270A5B5700F15C14 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6955309B2709ED7400ADC97A /* AVFoundation.framework */; platformFilter = maccatalyst; };
-		6983EA53270A5B5700F15C14 /* AVFoundation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6955309B2709ED7400ADC97A /* AVFoundation.framework */; platformFilter = maccatalyst; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		69DCE144270A4BF8004389EB /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69DCE143270A4BF8004389EB /* MainMenu.xib */; };
+		776187B228BDD32B006AEB5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776187B128BDD32B006AEB5E /* AppDelegate.swift */; };
+		776187B428BDD32C006AEB5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 776187B328BDD32C006AEB5E /* Assets.xcassets */; };
+		776187B728BDD32C006AEB5E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 776187B528BDD32C006AEB5E /* MainMenu.xib */; };
+		776187E928BE6517006AEB5E /* DeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776187E828BE6517006AEB5E /* DeviceManager.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		6983EA54270A5B5700F15C14 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				6983EA53270A5B5700F15C14 /* AVFoundation.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		695530882709DA9800ADC97A /* Cappie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cappie.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		6955308B2709DA9800ADC97A /* CappieApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CappieApp.swift; sourceTree = "<group>"; };
-		6955308D2709DA9800ADC97A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		6955308F2709DA9B00ADC97A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		695530922709DA9B00ADC97A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		695530942709DA9B00ADC97A /* Cappie.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Cappie.entitlements; sourceTree = "<group>"; };
-		6955309B2709ED7400ADC97A /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		6955309F2709FFD200ADC97A /* CameraPreviewInternal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewInternal.swift; sourceTree = "<group>"; };
-		695530A1270A004C00ADC97A /* CameraPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreview.swift; sourceTree = "<group>"; };
-		695530A3270A02DD00ADC97A /* DeviceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceManager.swift; sourceTree = "<group>"; };
-		695530A5270A3D8400ADC97A /* Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist.info; name = Info.plist; path = Cappie/Info.plist; sourceTree = SOURCE_ROOT; };
-		69DCE143270A4BF8004389EB /* MainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		776187AE28BDD32B006AEB5E /* Cappie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cappie.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		776187B128BDD32B006AEB5E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		776187B328BDD32C006AEB5E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		776187B628BDD32C006AEB5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		776187E828BE6517006AEB5E /* DeviceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceManager.swift; sourceTree = "<group>"; };
+		776187ED28BEE3FF006AEB5E /* Cappie.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Cappie.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		695530852709DA9800ADC97A /* Frameworks */ = {
+		776187AB28BDD32B006AEB5E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6947E82A271F2EF900D28ED1 /* SimplyCoreAudio in Frameworks */,
-				6983EA52270A5B5700F15C14 /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6955307F2709DA9700ADC97A = {
+		776187A528BDD32B006AEB5E = {
 			isa = PBXGroup;
 			children = (
-				6955308A2709DA9800ADC97A /* Cappie */,
-				695530892709DA9800ADC97A /* Products */,
-				6955309A2709ED7400ADC97A /* Frameworks */,
+				776187B028BDD32B006AEB5E /* Cappie */,
+				776187AF28BDD32B006AEB5E /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		695530892709DA9800ADC97A /* Products */ = {
+		776187AF28BDD32B006AEB5E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				695530882709DA9800ADC97A /* Cappie.app */,
+				776187AE28BDD32B006AEB5E /* Cappie.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6955308A2709DA9800ADC97A /* Cappie */ = {
+		776187B028BDD32B006AEB5E /* Cappie */ = {
 			isa = PBXGroup;
 			children = (
-				695530912709DA9B00ADC97A /* Preview Content */,
-				6955309F2709FFD200ADC97A /* CameraPreviewInternal.swift */,
-				695530A1270A004C00ADC97A /* CameraPreview.swift */,
-				695530A3270A02DD00ADC97A /* DeviceManager.swift */,
-				6955308D2709DA9800ADC97A /* ContentView.swift */,
-				6955308B2709DA9800ADC97A /* CappieApp.swift */,
-				69DCE143270A4BF8004389EB /* MainMenu.xib */,
-				6955308F2709DA9B00ADC97A /* Assets.xcassets */,
-				695530942709DA9B00ADC97A /* Cappie.entitlements */,
-				695530A5270A3D8400ADC97A /* Info.plist */,
+				776187B128BDD32B006AEB5E /* AppDelegate.swift */,
+				776187E828BE6517006AEB5E /* DeviceManager.swift */,
+				776187B528BDD32C006AEB5E /* MainMenu.xib */,
+				776187B328BDD32C006AEB5E /* Assets.xcassets */,
+				776187ED28BEE3FF006AEB5E /* Cappie.entitlements */,
 			);
 			path = Cappie;
-			sourceTree = "<group>";
-		};
-		695530912709DA9B00ADC97A /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				695530922709DA9B00ADC97A /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		6955309A2709ED7400ADC97A /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				6955309B2709ED7400ADC97A /* AVFoundation.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		695530872709DA9800ADC97A /* Cappie */ = {
+		776187AD28BDD32B006AEB5E /* Cappie */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 695530972709DA9B00ADC97A /* Build configuration list for PBXNativeTarget "Cappie" */;
+			buildConfigurationList = 776187BB28BDD32C006AEB5E /* Build configuration list for PBXNativeTarget "Cappie" */;
 			buildPhases = (
-				695530842709DA9800ADC97A /* Sources */,
-				695530852709DA9800ADC97A /* Frameworks */,
-				695530862709DA9800ADC97A /* Resources */,
-				6983EA54270A5B5700F15C14 /* Embed Frameworks */,
+				776187AA28BDD32B006AEB5E /* Sources */,
+				776187AB28BDD32B006AEB5E /* Frameworks */,
+				776187AC28BDD32B006AEB5E /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = Cappie;
-			packageProductDependencies = (
-				6947E829271F2EF900D28ED1 /* SimplyCoreAudio */,
-			);
-			productName = Cappie;
-			productReference = 695530882709DA9800ADC97A /* Cappie.app */;
+			productName = Cappie.v1;
+			productReference = 776187AE28BDD32B006AEB5E /* Cappie.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		695530802709DA9800ADC97A /* Project object */ = {
+		776187A628BDD32B006AEB5E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1300;
-				LastUpgradeCheck = 1300;
+				LastSwiftUpdateCheck = 1340;
+				LastUpgradeCheck = 1340;
 				TargetAttributes = {
-					695530872709DA9800ADC97A = {
-						CreatedOnToolsVersion = 13.0;
+					776187AD28BDD32B006AEB5E = {
+						CreatedOnToolsVersion = 13.4.1;
 					};
 				};
 			};
-			buildConfigurationList = 695530832709DA9800ADC97A /* Build configuration list for PBXProject "Cappie" */;
+			buildConfigurationList = 776187A928BDD32B006AEB5E /* Build configuration list for PBXProject "Cappie" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -159,56 +104,59 @@
 				en,
 				Base,
 			);
-			mainGroup = 6955307F2709DA9700ADC97A;
-			packageReferences = (
-				6947E828271F2EF900D28ED1 /* XCRemoteSwiftPackageReference "SimplyCoreAudio" */,
-			);
-			productRefGroup = 695530892709DA9800ADC97A /* Products */;
+			mainGroup = 776187A528BDD32B006AEB5E;
+			productRefGroup = 776187AF28BDD32B006AEB5E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				695530872709DA9800ADC97A /* Cappie */,
+				776187AD28BDD32B006AEB5E /* Cappie */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		695530862709DA9800ADC97A /* Resources */ = {
+		776187AC28BDD32B006AEB5E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				695530932709DA9B00ADC97A /* Preview Assets.xcassets in Resources */,
-				695530902709DA9B00ADC97A /* Assets.xcassets in Resources */,
-				69DCE144270A4BF8004389EB /* MainMenu.xib in Resources */,
+				776187B428BDD32C006AEB5E /* Assets.xcassets in Resources */,
+				776187B728BDD32C006AEB5E /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		695530842709DA9800ADC97A /* Sources */ = {
+		776187AA28BDD32B006AEB5E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6955308E2709DA9800ADC97A /* ContentView.swift in Sources */,
-				695530A2270A004C00ADC97A /* CameraPreview.swift in Sources */,
-				6955308C2709DA9800ADC97A /* CappieApp.swift in Sources */,
-				695530A4270A02DD00ADC97A /* DeviceManager.swift in Sources */,
-				695530A02709FFD200ADC97A /* CameraPreviewInternal.swift in Sources */,
+				776187B228BDD32B006AEB5E /* AppDelegate.swift in Sources */,
+				776187E928BE6517006AEB5E /* DeviceManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXVariantGroup section */
+		776187B528BDD32C006AEB5E /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				776187B628BDD32C006AEB5E /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
-		695530952709DA9B00ADC97A /* Debug */ = {
+		776187B928BDD32C006AEB5E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
-				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -235,7 +183,6 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CREATE_INFOPLIST_SECTION_IN_BINARY = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -253,9 +200,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Cappie/Info.plist;
-				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -265,14 +210,13 @@
 			};
 			name = Debug;
 		};
-		695530962709DA9B00ADC97A /* Release */ = {
+		776187BA28BDD32C006AEB5E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
-				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -299,7 +243,6 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CREATE_INFOPLIST_SECTION_IN_BINARY = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -311,9 +254,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Cappie/Info.plist;
-				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -322,61 +263,69 @@
 			};
 			name = Release;
 		};
-		695530982709DA9B00ADC97A /* Debug */ = {
+		776187BC28BDD32C006AEB5E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = Cappie/Cappie.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Cappie/Preview Content\"";
 				DEVELOPMENT_TEAM = MPZW7ERR2D;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.video";
-				INFOPLIST_KEY_NSCameraUsageDescription = "Camera access is required to preview Capture Devices";
-				INFOPLIST_KEY_NSHumanReadableCopyright = Jayark;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainNibFile = MainMenu;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Used to capture audio devices";
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.Jayark.Cappie;
+				PRODUCT_BUNDLE_IDENTIFIER = interlacedpixel.Cappie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
-		695530992709DA9B00ADC97A /* Release */ = {
+		776187BD28BDD32C006AEB5E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = Cappie/Cappie.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Cappie/Preview Content\"";
 				DEVELOPMENT_TEAM = MPZW7ERR2D;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.video";
-				INFOPLIST_KEY_NSCameraUsageDescription = "Camera access is required to preview Capture Devices";
-				INFOPLIST_KEY_NSHumanReadableCopyright = Jayark;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainNibFile = MainMenu;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Used to capture audio devices";
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.Jayark.Cappie;
+				PRODUCT_BUNDLE_IDENTIFIER = interlacedpixel.Cappie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -385,44 +334,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		695530832709DA9800ADC97A /* Build configuration list for PBXProject "Cappie" */ = {
+		776187A928BDD32B006AEB5E /* Build configuration list for PBXProject "Cappie" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				695530952709DA9B00ADC97A /* Debug */,
-				695530962709DA9B00ADC97A /* Release */,
+				776187B928BDD32C006AEB5E /* Debug */,
+				776187BA28BDD32C006AEB5E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		695530972709DA9B00ADC97A /* Build configuration list for PBXNativeTarget "Cappie" */ = {
+		776187BB28BDD32C006AEB5E /* Build configuration list for PBXNativeTarget "Cappie" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				695530982709DA9B00ADC97A /* Debug */,
-				695530992709DA9B00ADC97A /* Release */,
+				776187BC28BDD32C006AEB5E /* Debug */,
+				776187BD28BDD32C006AEB5E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		6947E828271F2EF900D28ED1 /* XCRemoteSwiftPackageReference "SimplyCoreAudio" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/rnine/SimplyCoreAudio.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		6947E829271F2EF900D28ED1 /* SimplyCoreAudio */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 6947E828271F2EF900D28ED1 /* XCRemoteSwiftPackageReference "SimplyCoreAudio" */;
-			productName = SimplyCoreAudio;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
-	rootObject = 695530802709DA9800ADC97A /* Project object */;
+	rootObject = 776187A628BDD32B006AEB5E /* Project object */;
 }
