@@ -49,24 +49,6 @@ struct DeviceManager
         captureSession.startRunning()
     }
     
-    func getCaptureDevice(deviceName: String) -> AVCaptureDevice!
-    {
-        var devices = DeviceManager.getCaptureDevices(mediaType: .video)
-        for device in devices {
-            if device.localizedName.contains(deviceName) {
-                return device
-            }
-        }
-        
-        devices = DeviceManager.getCaptureDevices(mediaType: .audio)
-        for device in devices {
-            if device.localizedName.contains(deviceName) {
-                return device
-            }
-        }
-        return nil
-    }
-    
     func setupCaptureSession(devices: [AVCaptureDevice]! = nil)
     {
         for device in devices {
@@ -95,27 +77,27 @@ struct DeviceManager
         return captureSession
     }
     
-    internal static func getCaptureDevices(mediaType: AVMediaType = .video) -> [AVCaptureDevice]
+    internal static func getCaptureDevice(deviceName: String, mediaType: AVMediaType) -> AVCaptureDevice!
+    {
+        let devices = DeviceManager.getCaptureDevices(mediaType: mediaType)
+        return devices.first { $0.localizedName.contains(deviceName) }
+    }
+    
+    internal static func getCaptureDevices(deviceTypes: AVCaptureDevice.DeviceType = .externalUnknown, mediaType: AVMediaType = .metadata, position: AVCaptureDevice.Position = .unspecified) -> [AVCaptureDevice]
     {
         var discoverySession: AVCaptureDevice.DiscoverySession
         
         switch mediaType
         {
         case .audio:
-            let device = AVCaptureDevice.default(for: AVMediaType.audio)
-            return [ device! ]
+            discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInMicrophone], mediaType: .audio, position: .unspecified)
             
         case .video:
-            discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [
-                .builtInWideAngleCamera, .builtInMicrophone, .externalUnknown
-            ], mediaType: .video, position: .unspecified)
+            discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera, .builtInMicrophone, .externalUnknown], mediaType: .video, position: .unspecified)
             
         default:
-            return [AVCaptureDevice]()
+            discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [deviceTypes], mediaType: mediaType, position: position)
         }
-        
-        if (discoverySession.devices.isEmpty)
-        { return [AVCaptureDevice]() }
         
         return discoverySession.devices
     }

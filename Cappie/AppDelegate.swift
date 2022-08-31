@@ -16,13 +16,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var videoManager: DeviceManager = DeviceManager()
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        let videoDevice = videoManager.getCaptureDevice(deviceName: "USB")
-        let audioDevices = DeviceManager.getCaptureDevices(mediaType: .audio)
+        let audioDevice = DeviceManager.getCaptureDevice(deviceName: "USB", mediaType: .audio)
+        let videoDevice = DeviceManager.getCaptureDevice(deviceName: "USB", mediaType: .video)
         
-        videoManager.setupConfiguration(devices: [
-            videoDevice!
-            //,audioDevice!
-        ])
+        videoManager.setupConfiguration(devices: [ audioDevice!, videoDevice! ])
         
         view.layer = videoManager.getPreviewLayer()
         videoManager.startRunning()
