@@ -13,33 +13,38 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @IBOutlet var view: NSView!
     
-    var videoManager: DeviceManager = DeviceManager()
+    var videoManager: DeviceManager!
     
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
-        var interface: DeviceInterface
+    func applicationDidFinishLaunching(_ aNotification: Notification)
+    {
+        let videoDevice = DeviceInterface(searchName: "USB", mediaType: .video)
+        let audioDevice = DeviceInterface(searchName: "USB", mediaType: .audio)
         
-        interface = DeviceInterface(searchName: "USB", mediaType: .video)
-        let videoDevice = interface.device
-        
-        interface = DeviceInterface(searchName: "USB", mediaType: .audio)
-        let audioDevice = interface.device
-        
-        videoManager.setupConfiguration(devices: [ videoDevice, audioDevice ])
-        
-        view.layer = videoManager.createPreviewLayer()
+        videoManager = DeviceManager(devices: [ videoDevice, audioDevice ])
         videoManager.startRunning()
+        
+        setPreviewLayer()
     }
     
-    func applicationWillTerminate(_ aNotification: Notification) {
+    func applicationWillTerminate(_ aNotification: Notification)
+    {
         // Insert code here to tear down your application
     }
     
-    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool
+    {
         true;
     }
     
-    func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
+    func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool
+    {
         return true
     }
     
+    func setPreviewLayer()
+    {
+        let layer = AVCaptureVideoPreviewLayer(session: videoManager.session)
+        layer.backgroundColor = CGColor.black
+        self.view.layer = layer
+    }
 }

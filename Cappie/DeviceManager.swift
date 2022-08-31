@@ -10,34 +10,55 @@ import AVFoundation
 
 struct DeviceManager
 {
-    internal init(captureSession: AVCaptureSession? = AVCaptureSession()) {
-        self.captureSession = captureSession
+    internal init(devices: [DeviceInterface])
+    {
+        self.session = AVCaptureSession()
+        self.session.beginConfiguration()
         
-        self.captureSession.beginConfiguration()
+        getAuthorization(devices: devices)
     }
     
-    private var captureSession: AVCaptureSession! = AVCaptureSession()
+    var session: AVCaptureSession! = AVCaptureSession()
     
-    func setupConfiguration(devices: [AVCaptureDevice]! = nil, mediaType: AVMediaType = .video)
+    func requestAccess(mediaType: AVMediaType) -> Bool
     {
+        var hasAccess: Bool = false
+        
+        AVCaptureDevice.requestAccess(for: mediaType)
+        {
+            granted in
+            if granted
+            {
+                hasAccess = true
+            }
+        }
+        
+        return hasAccess
+    }
+    
+    func getAuthorization(devices: [DeviceInterface])
+    {
+        let mediaType = devices.first?.mediaType ?? .video
+        
         switch AVCaptureDevice.authorizationStatus(for: mediaType)
         {
-        case .authorized: // The user has previously granted access to the camera.
+        case .authorized:
             setupCaptureSession(devices: devices)
             
-        case .notDetermined: // The user has not yet been asked for camera access.
-            AVCaptureDevice.requestAccess(for: mediaType)
+        case .notDetermined:
+            if requestAccess(mediaType: mediaType)
             {
-                granted in
-                if granted
-                {
-                    setupConfiguration(devices: devices)
+                for device in devices {
+                    getAuthorization(devices: [device])
                 }
             }
+            
         case .restricted:
             return
+            
         case .denied:
             return
+            
         @unknown default:
             return
         }
@@ -45,30 +66,24 @@ struct DeviceManager
     
     func startRunning()
     {
-        captureSession.commitConfiguration()
-        captureSession.startRunning()
+        session.commitConfiguration()
+        session.startRunning()
     }
     
-    func setupCaptureSession(devices: [AVCaptureDevice]! = nil)
+    func setupCaptureSession(devices: [DeviceInterface]! = nil)
     {
         for device in devices {
             addCaptureSessionInput(device: device)
         }
     }
     
-    func addCaptureSessionInput(device: AVCaptureDevice)
+    func addCaptureSessionInput(device: DeviceInterface)
     {
-        let deviceInput = try? AVCaptureDeviceInput(device: device)
-        if captureSession.canAddInput(deviceInput!) {
-            captureSession.addInput(deviceInput!)
+        let deviceInput = try? AVCaptureDeviceInput(device: device.device)
+        if deviceInput == nil { return }
+        
+        if session.canAddInput(deviceInput!) {
+            session.addInput(deviceInput!)
         }
     }
-    
-    func createPreviewLayer() -> AVCaptureVideoPreviewLayer!
-    {
-        let layer = AVCaptureVideoPreviewLayer(session: captureSession)
-        layer.backgroundColor = CGColor.black
-        return layer
-    }
-    
 }
