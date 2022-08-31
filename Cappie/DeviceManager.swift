@@ -64,16 +64,11 @@ struct DeviceManager
         }
     }
     
-    func getPreviewLayer() -> AVCaptureVideoPreviewLayer!
+    func createPreviewLayer() -> AVCaptureVideoPreviewLayer!
     {
         let layer = AVCaptureVideoPreviewLayer(session: captureSession)
         layer.backgroundColor = CGColor.black
         return layer
-    }
-    
-    func getSession() -> AVCaptureSession
-    {
-        return captureSession
     }
     
 }

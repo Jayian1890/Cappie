@@ -16,8 +16,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var videoManager: DeviceManager = DeviceManager()
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        //let audioDevice = DeviceManager.getCaptureDevice(deviceName: "USB", mediaType: .audio)!
-        //let videoDevice = DeviceManager.getCaptureDevice(deviceName: "USB", mediaType: .video)
         var interface: DeviceInterface
         
         interface = DeviceInterface(searchName: "USB", mediaType: .video)
@@ -28,7 +26,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         videoManager.setupConfiguration(devices: [ videoDevice, audioDevice ])
         
-        view.layer = videoManager.getPreviewLayer()
+        view.layer = videoManager.createPreviewLayer()
         videoManager.startRunning()
     }
     
