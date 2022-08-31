@@ -72,8 +72,6 @@ struct DeviceManager
         for device in devices {
             addCaptureSessionInput(device: device)
         }
-        
-        //addCaptureSessionOutput()
     }
     
     func addCaptureSessionInput(device: AVCaptureDevice)
@@ -82,14 +80,6 @@ struct DeviceManager
         if captureSession.canAddInput(deviceInput!) {
             captureSession.addInput(deviceInput!)
         }
-    }
-    
-    func addCaptureSessionOutput()
-    {
-        let deviceOutput = AVCaptureVideoDataOutput()
-        guard captureSession.canAddOutput(deviceOutput) else { return }
-        captureSession.sessionPreset = .high
-        captureSession.addOutput(deviceOutput)
     }
     
     
