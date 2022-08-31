@@ -12,7 +12,7 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Cappie_v1" customModuleProvider="target">
+        <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Cappie" customModuleProvider="target">
             <connections>
                 <outlet property="view" destination="4tj-tN-bDD" id="lDG-Kl-FYS"/>
             </connections>
@@ -126,20 +126,24 @@
         </menu>
         <window title="Cappie" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="335" y="390" width="480" height="360"/>
+            <rect key="contentRect" x="210" y="180" width="1024" height="576"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="875"/>
             <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
+                <rect key="frame" x="0.0" y="0.0" width="1024" height="576"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4tj-tN-bDD" customClass="PlayerView" customModule="Cappie_v1" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="4tj-tN-bDD" customClass="PlayerView" customModule="Cappie" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="576"/>
                     </customView>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="4tj-tN-bDD" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="9XL-IK-16Q"/>
+                    <constraint firstAttribute="bottom" secondItem="4tj-tN-bDD" secondAttribute="bottom" id="L9d-hN-uGt"/>
+                    <constraint firstAttribute="trailing" secondItem="4tj-tN-bDD" secondAttribute="trailing" id="Tgu-iG-LXD"/>
+                    <constraint firstItem="4tj-tN-bDD" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="jFA-JK-8yl"/>
+                </constraints>
             </view>
-            <point key="canvasLocation" x="200" y="400"/>
+            <point key="canvasLocation" x="200" y="492"/>
         </window>
         <viewController id="dGP-16-LQN"/>
     </objects>

@@ -10,57 +10,98 @@ import AVFoundation
 
 struct DeviceManager
 {
-    func setupConfiguration(devices: [AVCaptureDevice]! = nil) -> AVCaptureSession
-    {
-        var captureSession: AVCaptureSession = AVCaptureSession()
+    internal init(captureSession: AVCaptureSession? = AVCaptureSession()) {
+        self.captureSession = captureSession
         
-        switch AVCaptureDevice.authorizationStatus(for: .video)
+        self.captureSession.beginConfiguration()
+    }
+    
+    private var captureSession: AVCaptureSession! = AVCaptureSession()
+    
+    func setupConfiguration(devices: [AVCaptureDevice]! = nil, mediaType: AVMediaType = .video)
+    {
+        switch AVCaptureDevice.authorizationStatus(for: mediaType)
         {
         case .authorized: // The user has previously granted access to the camera.
-            captureSession = setupCaptureSession(devices: devices)
+            setupCaptureSession(devices: devices)
             
         case .notDetermined: // The user has not yet been asked for camera access.
-            AVCaptureDevice.requestAccess(for: .video)
+            AVCaptureDevice.requestAccess(for: mediaType)
             {
                 granted in
                 if granted
                 {
-                    captureSession = setupConfiguration(devices: devices)
+                    setupConfiguration(devices: devices)
                 }
             }
         case .restricted:
-            return captureSession
+            return
         case .denied:
-            return captureSession
+            return
         @unknown default:
-            return captureSession
+            return
         }
-        
-        return captureSession
     }
     
-    func setupCaptureSession(devices: [AVCaptureDevice]! = nil) -> AVCaptureSession!
+    func startRunning()
     {
-        let captureSession = AVCaptureSession()
-        
-        captureSession.beginConfiguration()
-        
+        captureSession.commitConfiguration()
+        captureSession.startRunning()
+    }
+    
+    func getCaptureDevice(deviceName: String) -> AVCaptureDevice!
+    {
+        var devices = DeviceManager.getCaptureDevices(mediaType: .video)
         for device in devices {
-            let deviceInput = try? AVCaptureDeviceInput(device: device)
-            if captureSession.canAddInput(deviceInput!) {
-                captureSession.addInput(deviceInput!)
+            if device.localizedName.contains(deviceName) {
+                return device
             }
         }
         
+        devices = DeviceManager.getCaptureDevices(mediaType: .audio)
+        for device in devices {
+            if device.localizedName.contains(deviceName) {
+                return device
+            }
+        }
+        return nil
+    }
+    
+    func setupCaptureSession(devices: [AVCaptureDevice]! = nil)
+    {
+        for device in devices {
+            addCaptureSessionInput(device: device)
+        }
+        
+        //addCaptureSessionOutput()
+    }
+    
+    func addCaptureSessionInput(device: AVCaptureDevice)
+    {
+        let deviceInput = try? AVCaptureDeviceInput(device: device)
+        if captureSession.canAddInput(deviceInput!) {
+            captureSession.addInput(deviceInput!)
+        }
+    }
+    
+    func addCaptureSessionOutput()
+    {
         let deviceOutput = AVCaptureVideoDataOutput()
-        guard captureSession.canAddOutput(deviceOutput) else { return nil }
+        guard captureSession.canAddOutput(deviceOutput) else { return }
         captureSession.sessionPreset = .high
         captureSession.addOutput(deviceOutput)
-        
-        captureSession.commitConfiguration()
-        
-        captureSession.startRunning()
-        
+    }
+    
+    
+    func getPreviewLayer() -> AVCaptureVideoPreviewLayer!
+    {
+        let layer = AVCaptureVideoPreviewLayer(session: captureSession)
+        layer.backgroundColor = CGColor.black
+        return layer
+    }
+    
+    func getSession() -> AVCaptureSession
+    {
         return captureSession
     }
     
@@ -71,14 +112,13 @@ struct DeviceManager
         switch mediaType
         {
         case .audio:
-            discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [
-                .builtInMicrophone
-            ], mediaType: .audio, position: .unspecified)
+            let device = AVCaptureDevice.default(for: AVMediaType.audio)
+            return [ device! ]
             
         case .video:
             discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [
                 .builtInWideAngleCamera, .builtInMicrophone, .externalUnknown
-            ], mediaType: mediaType, position: .unspecified)
+            ], mediaType: .video, position: .unspecified)
             
         default:
             return [AVCaptureDevice]()

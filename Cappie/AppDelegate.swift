@@ -16,19 +16,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var videoManager: DeviceManager = DeviceManager()
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
-        let videoDevices = DeviceManager.getCaptureDevices(mediaType: .video)
-        //let audioDevices = DeviceManager.getCaptureDevices(mediaType: .audio)
+        let videoDevice = videoManager.getCaptureDevice(deviceName: "USB")
+        let audioDevices = DeviceManager.getCaptureDevices(mediaType: .audio)
         
-        let videoDevice = videoDevices.first
-        //let audioDevice = audioDevices.first
-        
-        let session = videoManager.setupConfiguration(devices: [
+        videoManager.setupConfiguration(devices: [
             videoDevice!
             //,audioDevice!
         ])
         
-        view.layer = AVCaptureVideoPreviewLayer(session: session)
+        view.layer = videoManager.getPreviewLayer()
+        videoManager.startRunning()
     }
     
     func applicationWillTerminate(_ aNotification: Notification) {
