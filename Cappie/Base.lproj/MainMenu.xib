@@ -16,6 +16,7 @@
             <connections>
                 <outlet property="audioMenu" destination="Sgt-ad-HGf" id="Und-XI-r8o"/>
                 <outlet property="menu" destination="AYu-sK-qS6" id="3se-XJ-4HO"/>
+                <outlet property="muteMenu" destination="Sgt-ad-HGf" id="Ji8-hw-Xe8"/>
                 <outlet property="videoMenu" destination="Jla-Tv-YGU" id="50n-DX-lqy"/>
                 <outlet property="view" destination="4tj-tN-bDD" id="lDG-Kl-FYS"/>
             </connections>

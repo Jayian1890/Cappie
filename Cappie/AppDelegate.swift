@@ -15,6 +15,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet var menu: NSMenu!
     @IBOutlet var videoMenu: NSMenu!
     @IBOutlet var audioMenu: NSMenu!
+    @IBOutlet var muteMenu: NSMenu!
     
     var title: String! = "Cappie"
     var currentVideoDevice: DeviceInterface!
@@ -32,6 +33,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         videoMenu.items.first?.state = .on
         audioMenu.items.first?.state = .on
+        
+        audioMenu.items.append(NSMenuItem(title: "Mute", action: #selector(muteAudio(_:)), keyEquivalent: ""))
+        
         updatePreview(videoDevice: currentVideoDevice)
     }
     
@@ -85,6 +89,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         sender.state = .on
+    }
+    
+    @objc func muteAudio(_ sender: NSMenuItem)
+    {
+        let output = deviceManager.getSession().outputs.first as! AVCaptureAudioPreviewOutput
+        
+        if sender.state == .on {
+            sender.state = .off
+            output.volume = 1
+        } else {
+            sender.state = .on
+            output.volume = 0
+        }
     }
     
     func applicationWillTerminate(_ aNotification: Notification)
