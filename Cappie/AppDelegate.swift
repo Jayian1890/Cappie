@@ -12,18 +12,45 @@ import AVFoundation
 class AppDelegate: NSObject, NSApplicationDelegate {
     
     @IBOutlet var view: NSView!
-    
-    var videoManager: DeviceManager!
+    @IBOutlet var menu: NSMenu!
+    @IBOutlet var videoMenu: NSMenu!
+    @IBOutlet var audioMenu: NSMenu!
     
     func applicationDidFinishLaunching(_ aNotification: Notification)
     {
         let videoDevice = DeviceInterface(searchName: "USB", mediaType: .video)
         let audioDevice = DeviceInterface(searchName: "USB", mediaType: .audio)
         
-        videoManager = DeviceManager(devices: [ videoDevice, audioDevice ])
-        videoManager.startRunning()
+        let deviceManager: DeviceManager = DeviceManager()
+        deviceManager.configure(deviceInterfaces: [videoDevice, audioDevice])
+        deviceManager.startRunning()
         
-        setPreviewLayer()
+        setPreviewLayer(session: deviceManager.getSession())
+        generateMenuItems(menu: videoMenu, mediaType: .video)
+        generateMenuItems(menu: audioMenu, mediaType: .audio)
+    }
+    
+    func generateMenuItems(menu: NSMenu, mediaType: AVMediaType)
+    {
+        let videoDevices = DeviceManager.getAllDevices(mediaType: mediaType)
+        
+        videoDevices.forEach() { device in
+            let menuItem = NSMenuItem(title: device.deviceName, action: #selector(updateInput(_:)), keyEquivalent: "")
+            menuItem.representedObject = device
+            
+            menu.items.append(menuItem)
+        }
+    }
+    
+    @objc func updateInput(_ sender: NSMenuItem)
+    {
+        let devices = sender.representedObject as! DeviceInterface
+        
+        let deviceManager = DeviceManager()
+        deviceManager.configure(deviceInterfaces: [devices])
+        deviceManager.startRunning()
+        
+        setPreviewLayer(session: deviceManager.getSession())
     }
     
     func applicationWillTerminate(_ aNotification: Notification)
@@ -41,9 +68,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return true
     }
     
-    func setPreviewLayer()
+    func setPreviewLayer(session: AVCaptureSession)
     {
-        let layer = AVCaptureVideoPreviewLayer(session: videoManager.session)
+        let layer = AVCaptureVideoPreviewLayer(session: session)
         layer.backgroundColor = CGColor.black
         self.view.layer = layer
     }

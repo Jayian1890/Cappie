@@ -8,17 +8,67 @@
 import Cocoa
 import AVFoundation
 
-struct DeviceManager
+class DeviceManager
 {
-    internal init(devices: [DeviceInterface])
+    private var session: AVCaptureSession!
+    private var devices: [DeviceInterface]!
+    
+    var queue: DispatchQueue = DispatchQueue(label: "com.cappie.DeviceManager")
+    
+    func configure(captureDevices: [AVCaptureDevice])
     {
-        self.session = AVCaptureSession()
-        self.session.beginConfiguration()
+        self.devices = [DeviceInterface]()
         
-        getAuthorization(devices: devices)
+        session = AVCaptureSession()
+        session.beginConfiguration()
+        
+        captureDevices.forEach() { device in
+            let deviceInterface = DeviceInterface(searchName: device.localizedName)
+            self.configure(interface: deviceInterface)
+            self.devices.append(deviceInterface)
+        }
     }
     
-    var session: AVCaptureSession! = AVCaptureSession()
+    func configure(deviceInterfaces: [DeviceInterface])
+    {
+        self.devices = deviceInterfaces
+        
+        session = AVCaptureSession()
+        session.beginConfiguration()
+        
+        self.devices.forEach() { device in
+            self.configure(interface: device)
+        }
+    }
+    
+    func configure(interface: DeviceInterface)
+    {
+        queue.async {
+            let input = try? AVCaptureDeviceInput(device: interface.device)
+            
+            let mediaType = interface.mediaType
+            
+            switch AVCaptureDevice.authorizationStatus(for: mediaType)
+            {
+            case .authorized:
+                self.addInput(input: input)
+                
+            case .notDetermined:
+                if self.requestAccess(mediaType: mediaType) {
+                    self.configure(interface: interface)
+                }
+                
+            case .restricted:
+                return
+                
+            case .denied:
+                return
+                
+            @unknown default:
+                return
+            }
+        }
+    }
     
     func requestAccess(mediaType: AVMediaType) -> Bool
     {
@@ -36,54 +86,53 @@ struct DeviceManager
         return hasAccess
     }
     
-    func getAuthorization(devices: [DeviceInterface])
-    {
-        let mediaType = devices.first?.mediaType ?? .video
-        
-        switch AVCaptureDevice.authorizationStatus(for: mediaType)
-        {
-        case .authorized:
-            setupCaptureSession(devices: devices)
-            
-        case .notDetermined:
-            if requestAccess(mediaType: mediaType)
-            {
-                for device in devices {
-                    getAuthorization(devices: [device])
-                }
-            }
-            
-        case .restricted:
-            return
-            
-        case .denied:
-            return
-            
-        @unknown default:
-            return
-        }
-    }
-    
     func startRunning()
     {
         session.commitConfiguration()
         session.startRunning()
     }
     
-    func setupCaptureSession(devices: [DeviceInterface]! = nil)
+    func addInput(inputs: [AVCaptureDeviceInput])
     {
-        for device in devices {
-            addCaptureSessionInput(device: device)
+        for input in inputs {
+            self.addInput(input: input)
         }
     }
     
-    func addCaptureSessionInput(device: DeviceInterface)
+    func addInput(input: AVCaptureDeviceInput?)
     {
-        let deviceInput = try? AVCaptureDeviceInput(device: device.device)
-        if deviceInput == nil { return }
+        if input == nil { return }
         
-        if session.canAddInput(deviceInput!) {
-            session.addInput(deviceInput!)
+        if session.canAddInput(input!) {
+            session.addInput(input!)
         }
+    }
+    
+    func getSession() -> AVCaptureSession
+    {
+        return self.session
+    }
+    
+    func getDevices() -> [DeviceInterface]!
+    {
+        return self.devices
+    }
+    
+    static func getAllDevices(mediaType: AVMediaType) -> [DeviceInterface]
+    {
+        let discoverySession = AVCaptureDevice.DiscoverySession(
+            deviceTypes: [.externalUnknown, .builtInMicrophone, .builtInWideAngleCamera],
+            mediaType: mediaType,
+            position: .unspecified
+        )
+        
+        var deviceInterfaces = [DeviceInterface]()
+        
+        discoverySession.devices.forEach { device in
+            let interface = DeviceInterface(searchName: device.localizedName, mediaType: mediaType)
+            deviceInterfaces.append(interface)
+        }
+        
+        return deviceInterfaces
     }
 }

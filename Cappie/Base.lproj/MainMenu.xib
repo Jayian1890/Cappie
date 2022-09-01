@@ -14,6 +14,9 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Cappie" customModuleProvider="target">
             <connections>
+                <outlet property="audioMenu" destination="Sgt-ad-HGf" id="Und-XI-r8o"/>
+                <outlet property="menu" destination="AYu-sK-qS6" id="3se-XJ-4HO"/>
+                <outlet property="videoMenu" destination="Jla-Tv-YGU" id="50n-DX-lqy"/>
                 <outlet property="view" destination="4tj-tN-bDD" id="lDG-Kl-FYS"/>
             </connections>
         </customObject>
@@ -109,6 +112,14 @@
                         </items>
                     </menu>
                 </menuItem>
+                <menuItem title="Video" state="on" id="H6I-bt-2fA" userLabel="Video">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Video" id="Jla-Tv-YGU"/>
+                </menuItem>
+                <menuItem title="Audio" id="9sL-Pl-Y6a" userLabel="Audio">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Audio" id="Sgt-ad-HGf"/>
+                </menuItem>
                 <menuItem title="Help" id="wpr-3q-Mcd">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Help" systemMenu="help" id="F2S-fz-NVQ">
@@ -127,7 +138,7 @@
         <window title="Cappie" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <rect key="contentRect" x="210" y="180" width="1024" height="576"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="875"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1025"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="1024" height="576"/>
                 <autoresizingMask key="autoresizingMask"/>
