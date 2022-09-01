@@ -45,12 +45,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @objc func updateInput(_ sender: NSMenuItem)
     {
-        let device = sender.representedObject as! DeviceInterface
+        let interface = sender.representedObject as! DeviceInterface
         
-        deviceManager.resetInputs()
-        deviceManager.addInput(interface: device)
-        
-        //setPreviewLayer(session: deviceManager.getSession())
+        switch interface.mediaType
+        {
+        case .audio:
+            self.deviceManager.resetOutputs()
+            self.deviceManager.addOutput(deviceUID: interface.device.uniqueID)
+            return
+            
+        case .video:
+            self.deviceManager.resetInputs()
+            self.deviceManager.addInput(interface: interface)
+            return
+            
+        default: return
+        }
     }
     
     func applicationWillTerminate(_ aNotification: Notification)
@@ -70,6 +80,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func setPreviewLayer(session: AVCaptureSession)
     {
+        
         let layer = AVCaptureVideoPreviewLayer(session: session)
         layer.backgroundColor = CGColor.black
         self.view.layer = layer

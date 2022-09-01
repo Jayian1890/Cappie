@@ -17,27 +17,27 @@ class DeviceManager
     
     func configure(captureDevices: [AVCaptureDevice])
     {
-        self.devices = [DeviceInterface]()
+        devices = [DeviceInterface]()
         
         session = AVCaptureSession()
         session.beginConfiguration()
         
         captureDevices.forEach() { device in
             let deviceInterface = DeviceInterface(searchName: device.localizedName)
-            self.configure(interface: deviceInterface)
-            self.devices.append(deviceInterface)
+            configure(interface: deviceInterface)
+            devices.append(deviceInterface)
         }
     }
     
     func configure(deviceInterfaces: [DeviceInterface])
     {
-        self.devices = deviceInterfaces
+        devices = deviceInterfaces
         
         session = AVCaptureSession()
         session.beginConfiguration()
         
-        self.devices.forEach() { device in
-            self.configure(interface: device)
+        devices.forEach() { device in
+            configure(interface: device)
         }
     }
     
@@ -52,6 +52,9 @@ class DeviceManager
             {
             case .authorized:
                 self.addInput(input: input)
+                if (mediaType == .audio) {
+                    self.addOutput(deviceUID: interface.device.uniqueID)
+                }
                 
             case .notDetermined:
                 if self.requestAccess(mediaType: mediaType) {
@@ -104,14 +107,14 @@ class DeviceManager
     func addInput(inputs: [AVCaptureDeviceInput])
     {
         for input in inputs {
-            self.addInput(input: input)
+            addInput(input: input)
         }
     }
     
     func addInput(interface: DeviceInterface)
     {
         let input = try? AVCaptureDeviceInput(device: interface.device)
-        self.addInput(input: input)
+        addInput(input: input)
     }
     
     func resetInputs()
@@ -121,14 +124,30 @@ class DeviceManager
         }
     }
     
+    func addOutput(deviceUID: String)
+    {
+        let audioOutput = AVCaptureAudioPreviewOutput()
+        audioOutput.outputDeviceUniqueID = deviceUID
+        audioOutput.volume = 1
+        
+        session.addOutput(audioOutput)
+    }
+    
+    func resetOutputs()
+    {
+        session.outputs.forEach { output in
+            session.removeOutput(output)
+        }
+    }
+    
     func getSession() -> AVCaptureSession
     {
-        return self.session
+        return session
     }
     
     func getDevices() -> [DeviceInterface]!
     {
-        return self.devices
+        return devices
     }
     
     static func getAllDevices(mediaType: AVMediaType) -> [DeviceInterface]
