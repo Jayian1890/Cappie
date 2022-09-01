@@ -43,6 +43,9 @@ class DeviceManager
     
     func configure(interface: DeviceInterface)
     {
+        resetInputs()
+        resetOutputs()
+        
         queue.async {
             let input = try? AVCaptureDeviceInput(device: interface.device)
             

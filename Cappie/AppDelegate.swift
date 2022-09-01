@@ -16,14 +16,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet var videoMenu: NSMenu!
     @IBOutlet var audioMenu: NSMenu!
     
+    var currentVideoDevice: DeviceInterface!
+    var currentAudioDevice: DeviceInterface!
+    
     let deviceManager: DeviceManager = DeviceManager()
     
     func applicationDidFinishLaunching(_ aNotification: Notification)
     {
-        let videoDevice = DeviceInterface(searchName: "USB", mediaType: .video)
-        let audioDevice = DeviceInterface(searchName: "USB", mediaType: .audio)
+        currentVideoDevice = DeviceInterface(searchName: "USB", mediaType: .video)
+        currentAudioDevice = DeviceInterface(searchName: "USB", mediaType: .audio)
         
-        deviceManager.configure(deviceInterfaces: [videoDevice, audioDevice])
+        deviceManager.configure(deviceInterfaces: [currentVideoDevice, currentAudioDevice])
         deviceManager.startRunning()
         
         setPreviewLayer(session: deviceManager.getSession())
@@ -47,20 +50,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     {
         let interface = sender.representedObject as! DeviceInterface
         
-        switch interface.mediaType
-        {
-        case .audio:
-            self.deviceManager.resetOutputs()
-            self.deviceManager.addOutput(deviceUID: interface.device.uniqueID)
-            return
-            
-        case .video:
-            self.deviceManager.resetInputs()
-            self.deviceManager.addInput(interface: interface)
-            return
-            
-        default: return
+        if interface.mediaType == .video {
+            currentVideoDevice = interface
         }
+        
+        if interface.mediaType == .audio {
+            currentAudioDevice = interface
+        }
+        
+        deviceManager.configure(deviceInterfaces: [currentVideoDevice, currentAudioDevice])
+        deviceManager.startRunning()
+        
+        setPreviewLayer(session: deviceManager.getSession())
     }
     
     func applicationWillTerminate(_ aNotification: Notification)
