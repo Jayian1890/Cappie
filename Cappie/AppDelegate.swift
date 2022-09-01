@@ -26,12 +26,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         currentVideoDevice = DeviceInterface(searchName: "USB", mediaType: .video)
         currentAudioDevice = DeviceInterface(searchName: "USB", mediaType: .audio)
         
-        deviceManager.configure(deviceInterfaces: [currentVideoDevice, currentAudioDevice])
-        deviceManager.startRunning()
-        
-        setPreviewLayer(session: deviceManager.getSession())
         generateMenuItems(menu: videoMenu, mediaType: .video)
+        updatePreview(interface: currentVideoDevice)
+        
         generateMenuItems(menu: audioMenu, mediaType: .audio)
+        updatePreview(interface: currentAudioDevice)
     }
     
     func generateMenuItems(menu: NSMenu, mediaType: AVMediaType)
@@ -39,17 +38,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let videoDevices = DeviceManager.getAllDevices(mediaType: mediaType)
         
         videoDevices.forEach() { device in
-            let menuItem = NSMenuItem(title: device.deviceName, action: #selector(updateInput(_:)), keyEquivalent: "")
+            let menuItem = NSMenuItem(title: device.deviceName, action: #selector(updateInputMenuItem(_:)), keyEquivalent: "")
             menuItem.representedObject = device
             
             menu.items.append(menuItem)
         }
     }
     
-    @objc func updateInput(_ sender: NSMenuItem)
+    func updatePreview(interface: DeviceInterface)
     {
-        let interface = sender.representedObject as! DeviceInterface
-        
         if interface.mediaType == .video {
             currentVideoDevice = interface
         }
@@ -62,6 +59,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         deviceManager.startRunning()
         
         setPreviewLayer(session: deviceManager.getSession())
+    }
+    
+    func setPreviewLayer(session: AVCaptureSession)
+    {
+        let layer = AVCaptureVideoPreviewLayer(session: session)
+        layer.backgroundColor = CGColor.black
+        self.view.layer = layer
+    }
+    
+    @objc func updateInputMenuItem(_ sender: NSMenuItem)
+    {
+        updatePreview(interface: sender.representedObject as! DeviceInterface)
     }
     
     func applicationWillTerminate(_ aNotification: Notification)
@@ -77,13 +86,5 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool
     {
         return true
-    }
-    
-    func setPreviewLayer(session: AVCaptureSession)
-    {
-        
-        let layer = AVCaptureVideoPreviewLayer(session: session)
-        layer.backgroundColor = CGColor.black
-        self.view.layer = layer
     }
 }
