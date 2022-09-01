@@ -16,6 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet var videoMenu: NSMenu!
     @IBOutlet var audioMenu: NSMenu!
     
+    var title: String! = "Cappie"
     var currentVideoDevice: DeviceInterface!
     var currentAudioDevice: DeviceInterface!
     
@@ -27,10 +28,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         currentAudioDevice = DeviceInterface(searchName: "USB", mediaType: .audio)
         
         generateMenuItems(menu: videoMenu, mediaType: .video)
-        updatePreview(interface: currentVideoDevice)
-        
         generateMenuItems(menu: audioMenu, mediaType: .audio)
-        updatePreview(interface: currentAudioDevice)
+        
+        videoMenu.items.first?.state = .on
+        audioMenu.items.first?.state = .on
+        updatePreview(videoDevice: currentVideoDevice)
     }
     
     func generateMenuItems(menu: NSMenu, mediaType: AVMediaType)
@@ -45,20 +47,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    func updatePreview(interface: DeviceInterface)
+    func updatePreview(videoDevice: DeviceInterface! = nil, audioDevice: DeviceInterface! = nil)
     {
-        if interface.mediaType == .video {
-            currentVideoDevice = interface
+        if videoDevice != nil {
+            currentVideoDevice = videoDevice
         }
         
-        if interface.mediaType == .audio {
-            currentAudioDevice = interface
+        if audioDevice != nil {
+            currentAudioDevice = audioDevice
         }
         
         deviceManager.configure(deviceInterfaces: [currentVideoDevice, currentAudioDevice])
         deviceManager.startRunning()
         
         setPreviewLayer(session: deviceManager.getSession())
+        view.window?.title = title + " - " + currentVideoDevice.deviceName + " - " + currentAudioDevice.deviceName
     }
     
     func setPreviewLayer(session: AVCaptureSession)
@@ -70,7 +73,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @objc func updateInputMenuItem(_ sender: NSMenuItem)
     {
-        updatePreview(interface: sender.representedObject as! DeviceInterface)
+        let interface: DeviceInterface = sender.representedObject as! DeviceInterface
+        
+        if interface.mediaType == .video  {
+            updatePreview(videoDevice: interface)
+            videoMenu.items.forEach { item in item.state = .off }
+        }
+        else if interface.mediaType == .audio {
+            updatePreview(audioDevice: interface)
+            audioMenu.items.forEach { item in item.state = .off }
+        }
+        
+        sender.state = .on
     }
     
     func applicationWillTerminate(_ aNotification: Notification)
