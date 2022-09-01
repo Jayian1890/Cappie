@@ -16,12 +16,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet var videoMenu: NSMenu!
     @IBOutlet var audioMenu: NSMenu!
     
+    let deviceManager: DeviceManager = DeviceManager()
+    
     func applicationDidFinishLaunching(_ aNotification: Notification)
     {
         let videoDevice = DeviceInterface(searchName: "USB", mediaType: .video)
         let audioDevice = DeviceInterface(searchName: "USB", mediaType: .audio)
         
-        let deviceManager: DeviceManager = DeviceManager()
         deviceManager.configure(deviceInterfaces: [videoDevice, audioDevice])
         deviceManager.startRunning()
         
@@ -44,13 +45,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @objc func updateInput(_ sender: NSMenuItem)
     {
-        let devices = sender.representedObject as! DeviceInterface
+        let device = sender.representedObject as! DeviceInterface
         
-        let deviceManager = DeviceManager()
-        deviceManager.configure(deviceInterfaces: [devices])
-        deviceManager.startRunning()
+        deviceManager.resetInputs()
+        deviceManager.addInput(interface: device)
         
-        setPreviewLayer(session: deviceManager.getSession())
+        //setPreviewLayer(session: deviceManager.getSession())
     }
     
     func applicationWillTerminate(_ aNotification: Notification)

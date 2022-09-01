@@ -92,6 +92,15 @@ class DeviceManager
         session.startRunning()
     }
     
+    func addInput(input: AVCaptureDeviceInput?)
+    {
+        if input == nil { return }
+        
+        if session.canAddInput(input!) {
+            session.addInput(input!)
+        }
+    }
+    
     func addInput(inputs: [AVCaptureDeviceInput])
     {
         for input in inputs {
@@ -99,12 +108,16 @@ class DeviceManager
         }
     }
     
-    func addInput(input: AVCaptureDeviceInput?)
+    func addInput(interface: DeviceInterface)
     {
-        if input == nil { return }
-        
-        if session.canAddInput(input!) {
-            session.addInput(input!)
+        let input = try? AVCaptureDeviceInput(device: interface.device)
+        self.addInput(input: input)
+    }
+    
+    func resetInputs()
+    {
+        session.inputs.forEach { input in
+            session.removeInput(input)
         }
     }
     
