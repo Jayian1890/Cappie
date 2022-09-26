@@ -9,13 +9,18 @@ import Cocoa
 import AVFoundation
 
 @main
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecordingDelegate
+{
+    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?)
+    {
+    }
     
     @IBOutlet var view: NSView!
     @IBOutlet var menu: NSMenu!
     @IBOutlet var videoMenu: NSMenu!
     @IBOutlet var audioMenu: NSMenu!
     @IBOutlet var muteMenu: NSMenu!
+    @IBOutlet var recordMenu: NSMenuItem!
     
     var title: String! = "Cappie"
     var currentVideoDevice: DeviceInterface!
@@ -34,6 +39,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         videoMenu.items.first?.state = .on
         audioMenu.items.first?.state = .on
         
+        videoMenu.items.append(.separator())
+        videoMenu.items.append(NSMenuItem(title: "Record", action: #selector(startRecording(_:)), keyEquivalent: ""))
+        
+        audioMenu.items.append(.separator())
         audioMenu.items.append(NSMenuItem(title: "Mute", action: #selector(muteAudio(_:)), keyEquivalent: ""))
         
         updatePreview(videoDevice: currentVideoDevice)
@@ -102,6 +111,29 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             sender.state = .on
             output.volume = 0
         }
+    }
+    
+    @objc func startRecording(_ sender: NSMenuItem)
+    {
+        let videoOutput = AVCaptureMovieFileOutput()
+        
+        // Use the H.264 codec to encode the video.
+        //videoOutput.setOutputSettings([AVVideoCodecKey: AVVideoCodecType.h264], for: connection!)
+        
+        deviceManager.getSession().addOutput(videoOutput)
+        
+        let outFileUrl = createTempFileURL()
+        videoOutput.startRecording(to: outFileUrl, recordingDelegate: self)
+    }
+    
+    private func createTempFileURL() -> URL
+    {
+        let path = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.downloadsDirectory,
+                                                       FileManager.SearchPathDomainMask.userDomainMask, true).last
+        let pathURL = NSURL.fileURL(withPath: path!)
+        let fileURL = pathURL.appendingPathComponent("movie-\(NSDate.timeIntervalSinceReferenceDate).mov")
+        print(" video url:  \(fileURL)")
+        return fileURL
     }
     
     func applicationWillTerminate(_ aNotification: Notification)

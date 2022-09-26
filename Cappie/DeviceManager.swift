@@ -12,6 +12,7 @@ class DeviceManager
 {
     private var session: AVCaptureSession!
     private var devices: [DeviceInterface]!
+    private var videoOutput: AVCaptureMovieFileOutput!
     
     var queue: DispatchQueue = DispatchQueue(label: "com.cappie.DeviceManager")
     
@@ -56,7 +57,7 @@ class DeviceManager
             case .authorized:
                 self.addInput(input: input)
                 if (mediaType == .audio) {
-                    self.addOutput(deviceUID: interface.device.uniqueID)
+                    self.addAudioOutput(deviceUID: interface.device.uniqueID)
                 }
                 
             case .notDetermined:
@@ -127,7 +128,19 @@ class DeviceManager
         }
     }
     
-    func addOutput(deviceUID: String)
+    func addVideoOutput(deviceUID: String)
+    {
+        videoOutput = AVCaptureMovieFileOutput()
+        
+        let connection = videoOutput.connection(with: .video)
+        
+        // Use the H.264 codec to encode the video.
+        videoOutput.setOutputSettings([AVVideoCodecKey: AVVideoCodecType.h264], for: connection!)
+        
+        session.addOutput(videoOutput)
+    }
+    
+    func addAudioOutput(deviceUID: String)
     {
         let audioOutput = AVCaptureAudioPreviewOutput()
         audioOutput.outputDeviceUniqueID = deviceUID
