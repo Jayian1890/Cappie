@@ -14,7 +14,7 @@ class DeviceManager
     private var devices: [DeviceInterface]!
     private var videoOutput: AVCaptureMovieFileOutput!
     
-    var queue: DispatchQueue = DispatchQueue(label: "com.cappie.DeviceManager")
+    public var queue: DispatchQueue = DispatchQueue(label: "com.cappie.DeviceManager")
     
     func configure(captureDevices: [AVCaptureDevice])
     {
@@ -22,6 +22,7 @@ class DeviceManager
         
         session = AVCaptureSession()
         session.beginConfiguration()
+        session.sessionPreset = .hd1920x1080
         
         captureDevices.forEach() { device in
             let deviceInterface = DeviceInterface(searchName: device.localizedName)
@@ -36,6 +37,7 @@ class DeviceManager
         
         session = AVCaptureSession()
         session.beginConfiguration()
+        session.sessionPreset = .hd1920x1080
         
         devices.forEach() { device in
             configure(interface: device)

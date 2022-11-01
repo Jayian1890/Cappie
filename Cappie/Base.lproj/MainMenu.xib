@@ -16,8 +16,8 @@
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Cappie" customModuleProvider="target">
             <connections>
                 <outlet property="audioMenu" destination="Sgt-ad-HGf" id="Und-XI-r8o"/>
-                <outlet property="menu" destination="AYu-sK-qS6" id="3se-XJ-4HO"/>
-                <outlet property="muteMenu" destination="Sgt-ad-HGf" id="Ji8-hw-Xe8"/>
+                <outlet property="mainMenu" destination="AYu-sK-qS6" id="jBV-8d-hbj"/>
+                <outlet property="recordMenu" destination="e8t-sP-BHe" id="lAu-xT-XtV"/>
                 <outlet property="videoMenu" destination="Jla-Tv-YGU" id="50n-DX-lqy"/>
                 <outlet property="view" destination="4tj-tN-bDD" id="lDG-Kl-FYS"/>
             </connections>
@@ -61,15 +61,15 @@
                 </menuItem>
                 <menuItem title="Video" state="on" id="H6I-bt-2fA" userLabel="Video">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="Video" id="Jla-Tv-YGU">
-                        <items>
-                            <menuItem isSeparatorItem="YES" id="XPG-le-BgA"/>
-                        </items>
-                    </menu>
+                    <menu key="submenu" title="Video" id="Jla-Tv-YGU" userLabel="Video Menu"/>
                 </menuItem>
                 <menuItem title="Audio" id="9sL-Pl-Y6a" userLabel="Audio">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="Audio" id="Sgt-ad-HGf"/>
+                    <menu key="submenu" title="Audio" id="Sgt-ad-HGf" userLabel="Audio Menu"/>
+                </menuItem>
+                <menuItem title="Record" id="qMb-HD-74Z">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Record" id="e8t-sP-BHe" userLabel="Record Menu"/>
                 </menuItem>
             </items>
             <point key="canvasLocation" x="200" y="121"/>

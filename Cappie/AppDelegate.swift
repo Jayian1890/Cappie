@@ -16,11 +16,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
     }
     
     @IBOutlet var view: NSView!
-    @IBOutlet var menu: NSMenu!
+    @IBOutlet var mainMenu: NSMenu!
     @IBOutlet var videoMenu: NSMenu!
     @IBOutlet var audioMenu: NSMenu!
-    @IBOutlet var muteMenu: NSMenu!
-    @IBOutlet var recordMenu: NSMenuItem!
+    @IBOutlet var recordMenu: NSMenu!
+    
+    var recordMenuItem: NSMenuItem!
     
     var title: String! = "Cappie"
     var currentVideoDevice: DeviceInterface!
@@ -39,11 +40,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
         videoMenu.items.first?.state = .on
         audioMenu.items.first?.state = .on
         
-        videoMenu.items.append(.separator())
-        videoMenu.items.append(NSMenuItem(title: "Record", action: #selector(startRecording(_:)), keyEquivalent: ""))
-        
-        audioMenu.items.append(.separator())
-        audioMenu.items.append(NSMenuItem(title: "Mute", action: #selector(muteAudio(_:)), keyEquivalent: ""))
+        recordMenuItem = NSMenuItem(title: "Start", action: #selector(recordVideo(_:)), keyEquivalent: "")
+        recordMenu.items.append(recordMenuItem)
         
         updatePreview(videoDevice: currentVideoDevice)
     }
@@ -100,30 +98,39 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
         sender.state = .on
     }
     
-    @objc func muteAudio(_ sender: NSMenuItem)
+    let videoOutput = AVCaptureMovieFileOutput()
+    @objc func recordVideo(_ sender: NSMenuItem)
     {
-        let output = deviceManager.getSession().outputs.first as! AVCaptureAudioPreviewOutput
-        
-        if sender.state == .on {
-            sender.state = .off
-            output.volume = 1
+        if (videoOutput.isRecording) {
+            videoOutput.stopRecording()
+            deviceManager.getSession().removeOutput(videoOutput)
+            recordMenuItem.title = "Start"
         } else {
-            sender.state = .on
-            output.volume = 0
+            deviceManager.getSession().addOutput(videoOutput)
+            
+            let savePanel = NSSavePanel()
+            savePanel.nameFieldStringValue = generateFileName()
+            savePanel.begin { [self] (result) in
+                if result.rawValue == NSApplication.ModalResponse.OK.rawValue {
+                    let connection = videoOutput.connection(with: .video)
+                    
+                    deviceManager.queue.async {
+                        // Use the H.264 codec to encode the video.
+                        self.videoOutput.setOutputSettings([AVVideoCodecKey: AVVideoCodecType.h264], for: connection!)
+                    }
+                    
+                    let outFileUrl = createTempFileURL()
+                    videoOutput.startRecording(to: outFileUrl, recordingDelegate: self)
+
+                    recordMenuItem.title = "Stop"
+                }
+            }
         }
     }
     
-    @objc func startRecording(_ sender: NSMenuItem)
+    private func generateFileName() -> String
     {
-        let videoOutput = AVCaptureMovieFileOutput()
-        
-        // Use the H.264 codec to encode the video.
-        //videoOutput.setOutputSettings([AVVideoCodecKey: AVVideoCodecType.h264], for: connection!)
-        
-        deviceManager.getSession().addOutput(videoOutput)
-        
-        let outFileUrl = createTempFileURL()
-        videoOutput.startRecording(to: outFileUrl, recordingDelegate: self)
+        return "cappie-\(NSDate.timeIntervalSinceReferenceDate).mov"
     }
     
     private func createTempFileURL() -> URL
@@ -131,7 +138,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
         let path = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.downloadsDirectory,
                                                        FileManager.SearchPathDomainMask.userDomainMask, true).last
         let pathURL = NSURL.fileURL(withPath: path!)
-        let fileURL = pathURL.appendingPathComponent("movie-\(NSDate.timeIntervalSinceReferenceDate).mov")
+        let fileURL = pathURL.appendingPathComponent(generateFileName())
+        
         print(" video url:  \(fileURL)")
         return fileURL
     }
