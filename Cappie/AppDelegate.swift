@@ -31,19 +31,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
     
     func applicationDidFinishLaunching(_ aNotification: Notification)
     {
-        currentVideoDevice = DeviceInterface(searchName: "USB", mediaType: .video)
-        currentAudioDevice = DeviceInterface(searchName: "USB", mediaType: .audio)
-        
         generateMenuItems(menu: videoMenu, mediaType: .video)
         generateMenuItems(menu: audioMenu, mediaType: .audio)
         
-        videoMenu.items.first?.state = .on
-        audioMenu.items.first?.state = .on
+        //videoMenu.items.first?.state = .on
+        //audioMenu.items.first?.state = .on
         
         recordMenuItem = NSMenuItem(title: "Start", action: #selector(recordVideo(_:)), keyEquivalent: "")
         recordMenu.items.append(recordMenuItem)
         
-        updatePreview(videoDevice: currentVideoDevice)
+        currentVideoDevice = DeviceInterface(searchName: "USB", mediaType: .video)
+        currentAudioDevice = DeviceInterface(searchName: "USB", mediaType: .audio)
+        updatePreview(videoDevice: currentVideoDevice, audioDevice: currentAudioDevice)
     }
     
     func generateMenuItems(menu: NSMenu, mediaType: AVMediaType)
@@ -60,12 +59,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
     
     func updatePreview(videoDevice: DeviceInterface! = nil, audioDevice: DeviceInterface! = nil)
     {
+        deviceManager.resetInputs()
+        deviceManager.resetOutputs()
+        
         if videoDevice != nil {
             currentVideoDevice = videoDevice
+        } else {
+            currentVideoDevice = DeviceInterface(searchName: "USB", mediaType: .video)
         }
         
         if audioDevice != nil {
             currentAudioDevice = audioDevice
+        } else {
+            currentAudioDevice = DeviceInterface(searchName: "USB", mediaType: .audio)
         }
         
         deviceManager.configure(deviceInterfaces: [currentVideoDevice, currentAudioDevice])
@@ -88,14 +94,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
         
         if interface.mediaType == .video  {
             updatePreview(videoDevice: interface)
-            videoMenu.items.forEach { item in item.state = .off }
+            //videoMenu.items.forEach { item in item.state = .off }
         }
         else if interface.mediaType == .audio {
             updatePreview(audioDevice: interface)
-            audioMenu.items.forEach { item in item.state = .off }
+            //audioMenu.items.forEach { item in item.state = .off }
         }
         
-        sender.state = .on
+        //sender.state = .on
     }
     
     let videoOutput = AVCaptureMovieFileOutput()
@@ -106,22 +112,22 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
             deviceManager.getSession().removeOutput(videoOutput)
             recordMenuItem.title = "Start"
         } else {
-            deviceManager.getSession().addOutput(videoOutput)
+            deviceManager.queue.async { [self] in
+                deviceManager.getSession().addOutput(videoOutput)
+            }
             
             let savePanel = NSSavePanel()
             savePanel.nameFieldStringValue = generateFileName()
             savePanel.begin { [self] (result) in
                 if result.rawValue == NSApplication.ModalResponse.OK.rawValue {
                     let connection = videoOutput.connection(with: .video)
-                    
-                    deviceManager.queue.async {
-                        // Use the H.264 codec to encode the video.
-                        self.videoOutput.setOutputSettings([AVVideoCodecKey: AVVideoCodecType.h264], for: connection!)
+                    if (connection == nil) {
+                        return
                     }
                     
-                    let outFileUrl = createTempFileURL()
-                    videoOutput.startRecording(to: outFileUrl, recordingDelegate: self)
-
+                    videoOutput.setOutputSettings([AVVideoCodecKey: AVVideoCodecType.h264], for: connection!)
+                    videoOutput.startRecording(to: savePanel.url!, recordingDelegate: self)
+                    
                     recordMenuItem.title = "Stop"
                 }
             }

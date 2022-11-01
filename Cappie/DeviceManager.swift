@@ -10,13 +10,31 @@ import AVFoundation
 
 class DeviceManager
 {
+    internal init() {
+        configureSession()
+    }
+    
     private var session: AVCaptureSession!
-    private var devices: [DeviceInterface]!
+    //private var devices: [DeviceInterface]!
     private var videoOutput: AVCaptureMovieFileOutput!
     
     public var queue: DispatchQueue = DispatchQueue(label: "com.cappie.DeviceManager")
     
-    func configure(captureDevices: [AVCaptureDevice])
+    func configureSession()
+    {
+        session = AVCaptureSession()
+        session.beginConfiguration()
+        session.sessionPreset = .hd1920x1080
+    }
+    
+    func configure(deviceInterfaces: [DeviceInterface])
+    {
+        deviceInterfaces.forEach() { device in
+            configure(interface: device)
+        }
+    }
+    
+    /*func configure(captureDevices: [AVCaptureDevice])
     {
         devices = [DeviceInterface]()
         
@@ -29,25 +47,12 @@ class DeviceManager
             configure(interface: deviceInterface)
             devices.append(deviceInterface)
         }
-    }
-    
-    func configure(deviceInterfaces: [DeviceInterface])
-    {
-        devices = deviceInterfaces
-        
-        session = AVCaptureSession()
-        session.beginConfiguration()
-        session.sessionPreset = .hd1920x1080
-        
-        devices.forEach() { device in
-            configure(interface: device)
-        }
-    }
+    }*/
     
     func configure(interface: DeviceInterface)
     {
-        resetInputs()
-        resetOutputs()
+        //resetInputs()
+        //resetOutputs()
         
         queue.async {
             let input = try? AVCaptureDeviceInput(device: interface.device)
@@ -163,10 +168,10 @@ class DeviceManager
         return session
     }
     
-    func getDevices() -> [DeviceInterface]!
+    /*func getDevices() -> [DeviceInterface]!
     {
         return devices
-    }
+    }*/
     
     static func getAllDevices(mediaType: AVMediaType) -> [DeviceInterface]
     {

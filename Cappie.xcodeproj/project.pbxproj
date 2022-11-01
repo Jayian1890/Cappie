@@ -287,6 +287,8 @@
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.video";
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSDesktopFolderUsageDescription = "Recorded videos";
+				INFOPLIST_KEY_NSDocumentsFolderUsageDescription = "Recorded videos";
 				INFOPLIST_KEY_NSDownloadsFolderUsageDescription = "Recorded video files";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainNibFile = MainMenu;
@@ -323,6 +325,8 @@
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.video";
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSDesktopFolderUsageDescription = "Recorded videos";
+				INFOPLIST_KEY_NSDocumentsFolderUsageDescription = "Recorded videos";
 				INFOPLIST_KEY_NSDownloadsFolderUsageDescription = "Recorded video files";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainNibFile = MainMenu;
