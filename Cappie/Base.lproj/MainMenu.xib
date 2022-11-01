@@ -16,9 +16,11 @@
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Cappie" customModuleProvider="target">
             <connections>
                 <outlet property="audioMenu" destination="Sgt-ad-HGf" id="Und-XI-r8o"/>
+                <outlet property="audioMenuItem" destination="9sL-Pl-Y6a" id="IiJ-te-yhS"/>
                 <outlet property="mainMenu" destination="AYu-sK-qS6" id="jBV-8d-hbj"/>
                 <outlet property="recordMenu" destination="e8t-sP-BHe" id="lAu-xT-XtV"/>
                 <outlet property="videoMenu" destination="Jla-Tv-YGU" id="50n-DX-lqy"/>
+                <outlet property="videoMenuItem" destination="H6I-bt-2fA" id="wMc-b9-JkR"/>
                 <outlet property="view" destination="4tj-tN-bDD" id="lDG-Kl-FYS"/>
             </connections>
         </customObject>
