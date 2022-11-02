@@ -21,7 +21,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
     @IBOutlet var audioMenu: NSMenu!
     @IBOutlet var recordMenu: NSMenu!
     
-    @IBOutlet var title: String! = "Cappie: ALPHA 1.0"
     var currentVideoDevice: DeviceInterface!
     var currentAudioDevice: DeviceInterface!
     
@@ -29,17 +28,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
     
     func applicationDidFinishLaunching(_ aNotification: Notification)
     {
-        view.window?.title = title
-        
         generateMenuItems(menu: videoMenu, mediaType: .video)
         generateMenuItems(menu: audioMenu, mediaType: .audio)
         
         recordMenu.items.append(NSMenuItem(title: "Start", action: #selector(toggleRecoding(_:)), keyEquivalent: ""))
-    }
-    
-    @IBAction func updateAudioMenu(_ sender: Any)
-    {
-        generateMenuItems(menu: audioMenu, mediaType: .audio)
     }
     
     func generateMenuItems(menu: NSMenu, mediaType: AVMediaType)
@@ -61,21 +53,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
         
         if currentVideoDevice != nil {
             deviceManager.configure(interface: currentVideoDevice)
-        } else {
-            //currentVideoDevice = DeviceInterface(searchName: "USB", mediaType: .video)
         }
         
         if currentAudioDevice != nil {
             deviceManager.configure(interface: currentAudioDevice)
-        } else {
-            //currentAudioDevice = DeviceInterface(searchName: "USB", mediaType: .audio)
         }
         
-        //deviceManager.configure(deviceInterfaces: [currentVideoDevice, currentAudioDevice])
         deviceManager.startRunning()
-        
         setPreviewLayer(session: deviceManager.getSession())
-        //view.window?.title = title + " - " + currentVideoDevice.deviceName + " - " + currentAudioDevice.deviceName
     }
     
     func setPreviewLayer(session: AVCaptureSession)
@@ -90,12 +75,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
         let interface: DeviceInterface = sender.representedObject as! DeviceInterface
         
         if interface.mediaType == .video  {
-            //updatePreview(videoDevice: interface)
             currentVideoDevice = interface
             videoMenu.items.forEach { item in item.state = .off }
         }
         else if interface.mediaType == .audio {
-            //updatePreview(audioDevice: interface)
             currentAudioDevice = interface
             audioMenu.items.forEach { item in item.state = .off }
         }
@@ -149,17 +132,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
     private func generateFileName() -> String
     {
         return "cappie-\(NSDate.timeIntervalSinceReferenceDate).mov"
-    }
-    
-    private func createTempFileURL() -> URL
-    {
-        let path = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.downloadsDirectory,
-                                                       FileManager.SearchPathDomainMask.userDomainMask, true).last
-        let pathURL = NSURL.fileURL(withPath: path!)
-        let fileURL = pathURL.appendingPathComponent(generateFileName())
-        
-        print(" video url:  \(fileURL)")
-        return fileURL
     }
     
     func applicationWillTerminate(_ aNotification: Notification)

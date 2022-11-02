@@ -24,13 +24,6 @@ class DeviceManager
     public var preset: AVCaptureSession.Preset = .hd1920x1080
     public var queue: DispatchQueue = DispatchQueue(label: "com.cappie.DeviceManager")
     
-    func configure(deviceInterfaces: [DeviceInterface])
-    {
-        deviceInterfaces.forEach() { device in
-            configure(interface: device)
-        }
-    }
-    
     func configure(interface: DeviceInterface)
     {
         queue.async {
@@ -116,8 +109,6 @@ class DeviceManager
     
     func addVideoOutput(deviceUID: String)
     {
-        //videoOutput = AVCaptureMovieFileOutput()
-        
         let connection = videoOutput.connection(with: .video)
         
         // Use the H.264 codec to encode the video.
