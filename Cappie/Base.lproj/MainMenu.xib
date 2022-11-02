@@ -16,11 +16,9 @@
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Cappie" customModuleProvider="target">
             <connections>
                 <outlet property="audioMenu" destination="Sgt-ad-HGf" id="Und-XI-r8o"/>
-                <outlet property="audioMenuItem" destination="9sL-Pl-Y6a" id="IiJ-te-yhS"/>
                 <outlet property="mainMenu" destination="AYu-sK-qS6" id="jBV-8d-hbj"/>
                 <outlet property="recordMenu" destination="e8t-sP-BHe" id="lAu-xT-XtV"/>
                 <outlet property="videoMenu" destination="Jla-Tv-YGU" id="50n-DX-lqy"/>
-                <outlet property="videoMenuItem" destination="H6I-bt-2fA" id="wMc-b9-JkR"/>
                 <outlet property="view" destination="4tj-tN-bDD" id="lDG-Kl-FYS"/>
             </connections>
         </customObject>
@@ -76,7 +74,7 @@
             </items>
             <point key="canvasLocation" x="200" y="121"/>
         </menu>
-        <window title="Cappie" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" animationBehavior="default" id="QvC-M9-y7g">
+        <window title="Cappie" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" animationBehavior="default" titleVisibility="hidden" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <rect key="contentRect" x="210" y="180" width="1024" height="576"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1025"/>

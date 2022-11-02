@@ -11,20 +11,18 @@ import AVFoundation
 class DeviceManager
 {
     internal init() {
-        configureSession()
-    }
-    
-    private var session: AVCaptureSession!
-    private var videoOutput: AVCaptureMovieFileOutput!
-    
-    public var queue: DispatchQueue = DispatchQueue(label: "com.cappie.DeviceManager")
-    
-    func configureSession()
-    {
+        videoOutput = AVCaptureMovieFileOutput()
+        
         session = AVCaptureSession()
         session.beginConfiguration()
-        session.sessionPreset = .hd1920x1080
+        session.sessionPreset = preset
     }
+    
+    private var session: AVCaptureSession
+    
+    public var videoOutput: AVCaptureMovieFileOutput
+    public var preset: AVCaptureSession.Preset = .hd1920x1080
+    public var queue: DispatchQueue = DispatchQueue(label: "com.cappie.DeviceManager")
     
     func configure(deviceInterfaces: [DeviceInterface])
     {
@@ -118,7 +116,7 @@ class DeviceManager
     
     func addVideoOutput(deviceUID: String)
     {
-        videoOutput = AVCaptureMovieFileOutput()
+        //videoOutput = AVCaptureMovieFileOutput()
         
         let connection = videoOutput.connection(with: .video)
         
@@ -152,7 +150,7 @@ class DeviceManager
     static func getAllDevices(mediaType: AVMediaType) -> [DeviceInterface]
     {
         let discoverySession = AVCaptureDevice.DiscoverySession(
-            deviceTypes: [.externalUnknown, .builtInMicrophone, .builtInWideAngleCamera],
+            deviceTypes: [.externalUnknown, .builtInMicrophone],
             mediaType: mediaType,
             position: .unspecified
         )

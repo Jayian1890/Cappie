@@ -12,7 +12,7 @@ class DeviceInterface: NSObject {
     internal init
     (
         searchName: String,
-        deviceType: [AVCaptureDevice.DeviceType] = [.externalUnknown, .builtInMicrophone, .builtInWideAngleCamera],
+        deviceType: [AVCaptureDevice.DeviceType] = [.externalUnknown, .builtInMicrophone],
         mediaType: AVMediaType = .video,
         position: AVCaptureDevice.Position = .unspecified)
     {
