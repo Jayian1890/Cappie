@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  Cappie.v1
+//  Cappie
 //
 //  Created by Jared Terrance on 8/30/22.
 //
@@ -31,7 +31,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
         generateMenuItems(menu: videoMenu, mediaType: .video)
         generateMenuItems(menu: audioMenu, mediaType: .audio)
         
+        audioMenu.items.append(.separator())
         recordMenu.items.append(NSMenuItem(title: "Start", action: #selector(toggleRecoding(_:)), keyEquivalent: ""))
+        
+        audioMenu.items.append(.separator())
+        audioMenu.items.append(NSMenuItem(title: "Mute", action: #selector(toggleAudio(_:)), keyEquivalent: ""))
     }
     
     func generateMenuItems(menu: NSMenu, mediaType: AVMediaType)
@@ -46,6 +50,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
         }
     }
     
+    func setPreviewLayer(session: AVCaptureSession)
+    {
+        let layer = AVCaptureVideoPreviewLayer(session: session)
+        layer.backgroundColor = CGColor.black
+        self.view.layer = layer
+    }
+
     func updatePreview()
     {
         deviceManager.resetInputs()
@@ -61,13 +72,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
         
         deviceManager.startRunning()
         setPreviewLayer(session: deviceManager.getSession())
-    }
-    
-    func setPreviewLayer(session: AVCaptureSession)
-    {
-        let layer = AVCaptureVideoPreviewLayer(session: session)
-        layer.backgroundColor = CGColor.black
-        self.view.layer = layer
     }
     
     @objc func updateInputMenuItem(_ sender: NSMenuItem)
@@ -87,13 +91,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
         sender.state = .on
     }
     
-    func toggleAudio()
+    @objc func toggleAudio(_ sender: NSMenuItem)
     {
-        let output = deviceManager.getSession().outputs.first as! AVCaptureAudioPreviewOutput
-        if (currentAudioDevice.deviceType.contains(AVCaptureDevice.DeviceType.builtInMicrophone)) {
-            output.volume = 0
+        if deviceManager.getVolume() > 0 {
+            sender.state = .on
+            deviceManager.mute()
         } else {
-            output.volume = 1
+            sender.state = .off
+            deviceManager.unmute()
         }
     }
     

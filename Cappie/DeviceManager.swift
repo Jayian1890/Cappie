@@ -1,6 +1,6 @@
 //
 //  DeviceAccess.swift
-//  Cappie.v1
+//  Cappie
 //
 //  Created by Jared Terrance on 8/30/22.
 //
@@ -19,6 +19,7 @@ class DeviceManager
     }
     
     private var session: AVCaptureSession
+    private var volume: Float = 1
     
     public var videoOutput: AVCaptureMovieFileOutput
     public var preset: AVCaptureSession.Preset = .hd1920x1080
@@ -76,6 +77,65 @@ class DeviceManager
     {
         session.commitConfiguration()
         session.startRunning()
+    }
+    
+    func stopRunning()
+    {
+        resetInputs()
+        resetOutputs()
+        session.stopRunning()
+    }
+    
+    /// Changes the volume of the curent audio session.
+    /// - Parameters:
+    ///     - volume: Current float value of AVCaptureAudioPreviewOutput.Volume
+    /// - Returns:
+    ///     void()
+    func setVolume(volume: Float)
+    {
+        let output = getAudioOutput()
+        
+        output.volume = self.volume
+    }
+    
+    /// Returns 'volume' for the current audio session
+    /// - Returns:
+    ///     Float value of AVCaptureAudioPreviewOutput.Volume
+    func getVolume() -> Float
+    {
+        return getAudioOutput().volume
+    }
+    
+    /// Decreases the volume of the current audio session to 0
+    ///  - Returns:
+    ///     void()
+    func mute()
+    {
+        self.volume = getAudioOutput().volume
+        getAudioOutput().volume = 0
+    }
+    
+    /// Restores the last known volume prior to the mute() funcion
+    /// - Returns:
+    ///     void()
+    func unmute()
+    {
+        getAudioOutput().volume = self.volume
+    }
+    
+    /// Toggles the current volume on & off
+    ///  - Returns:
+    ///     void()
+    func toggleMute()
+    {
+        let output = getAudioOutput()
+        
+        switch (output.volume) {
+        case 0:
+            unmute()
+        default:
+            mute()
+        }
     }
     
     func addInput(input: AVCaptureDeviceInput?)
@@ -136,6 +196,15 @@ class DeviceManager
     func getSession() -> AVCaptureSession
     {
         return session
+    }
+    
+    func getAudioOutput() -> AVCaptureAudioPreviewOutput
+    {
+        if getSession().outputs.count <= 0 {
+            return AVCaptureAudioPreviewOutput()
+        }
+        
+        return  getSession().outputs.first as! AVCaptureAudioPreviewOutput
     }
     
     static func getAllDevices(mediaType: AVMediaType) -> [DeviceInterface]

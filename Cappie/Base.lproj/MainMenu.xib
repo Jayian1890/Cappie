@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21225" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21225"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -51,7 +51,7 @@
                     <menu key="submenu" title="File" id="bib-Uj-vzu">
                         <items>
                             <menuItem isSeparatorItem="YES" id="m54-Is-iLE"/>
-                            <menuItem title="Close" keyEquivalent="w" id="DVo-aG-piG">
+                            <menuItem title="Close" keyEquivalent="c" id="DVo-aG-piG">
                                 <connections>
                                     <action selector="performClose:" target="-1" id="HmO-Ls-i7Q"/>
                                 </connections>
@@ -67,9 +67,9 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Audio" id="Sgt-ad-HGf" userLabel="Audio Menu"/>
                 </menuItem>
-                <menuItem title="Record" id="qMb-HD-74Z">
+                <menuItem title="Recording" id="qMb-HD-74Z">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="Record" id="e8t-sP-BHe" userLabel="Record Menu"/>
+                    <menu key="submenu" title="Recording" id="e8t-sP-BHe" userLabel="Record Menu"/>
                 </menuItem>
             </items>
             <point key="canvasLocation" x="200" y="121"/>
