@@ -31,7 +31,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
         generateMenuItems(menu: videoMenu, mediaType: .video)
         generateMenuItems(menu: audioMenu, mediaType: .audio)
         
-        audioMenu.items.append(.separator())
+        recordMenu.items.append(.separator())
         recordMenu.items.append(NSMenuItem(title: "Start", action: #selector(toggleRecoding(_:)), keyEquivalent: ""))
         
         audioMenu.items.append(.separator())

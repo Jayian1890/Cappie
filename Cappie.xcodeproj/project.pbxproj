@@ -37,6 +37,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		773E8AB3292EF9F3001996E4 /* VirtualCamera */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = VirtualCamera;
+			sourceTree = "<group>";
+		};
 		776187A528BDD32B006AEB5E = {
 			isa = PBXGroup;
 			children = (
@@ -56,6 +63,7 @@
 		776187B028BDD32B006AEB5E /* Cappie */ = {
 			isa = PBXGroup;
 			children = (
+				773E8AB3292EF9F3001996E4 /* VirtualCamera */,
 				77B4C8D029180A7A00228B24 /* IDETemplateMacros.plist */,
 				776187B128BDD32B006AEB5E /* AppDelegate.swift */,
 				776187E828BE6517006AEB5E /* DeviceManager.swift */,
@@ -286,7 +294,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = N54NYWNDBC;
+				DEVELOPMENT_TEAM = C7DRPUR633;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Info.plist;
@@ -305,7 +313,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = interlacedpixel.Cappie;
+				PRODUCT_BUNDLE_IDENTIFIER = com.interlacedpixel.Cappie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -326,7 +334,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = N54NYWNDBC;
+				DEVELOPMENT_TEAM = C7DRPUR633;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Info.plist;
@@ -345,7 +353,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = interlacedpixel.Cappie;
+				PRODUCT_BUNDLE_IDENTIFIER = com.interlacedpixel.Cappie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;

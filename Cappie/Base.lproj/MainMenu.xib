@@ -18,6 +18,7 @@
                 <outlet property="audioMenu" destination="Sgt-ad-HGf" id="Und-XI-r8o"/>
                 <outlet property="mainMenu" destination="AYu-sK-qS6" id="jBV-8d-hbj"/>
                 <outlet property="recordMenu" destination="e8t-sP-BHe" id="lAu-xT-XtV"/>
+                <outlet property="videoCodecMenu" destination="e8t-sP-BHe" id="6f5-Q6-E4g"/>
                 <outlet property="videoMenu" destination="Jla-Tv-YGU" id="50n-DX-lqy"/>
                 <outlet property="view" destination="4tj-tN-bDD" id="lDG-Kl-FYS"/>
             </connections>
