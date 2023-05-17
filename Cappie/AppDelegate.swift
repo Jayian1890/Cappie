@@ -31,19 +31,24 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
         generateMenuItems(menu: videoMenu, mediaType: .video)
         generateMenuItems(menu: audioMenu, mediaType: .audio)
         
+        updateInputMenuItem(videoMenu.items.first!)
+        updateInputMenuItem(audioMenu.items.first!)
+        
         recordMenu.items.append(.separator())
-        recordMenu.items.append(NSMenuItem(title: "Start", action: #selector(toggleRecoding(_:)), keyEquivalent: ""))
+        recordMenu.items.append(NSMenuItem(title: "Start", action: #selector(toggleRecoding(_:)), keyEquivalent: "s"))
         
         audioMenu.items.append(.separator())
-        audioMenu.items.append(NSMenuItem(title: "Mute", action: #selector(toggleAudio(_:)), keyEquivalent: ""))
+        audioMenu.items.append(NSMenuItem(title: "Mute", action: #selector(toggleAudio(_:)), keyEquivalent: "m"))
     }
     
     func generateMenuItems(menu: NSMenu, mediaType: AVMediaType)
     {
         let videoDevices = DeviceManager.getAllDevices(mediaType: mediaType)
         
-        videoDevices.forEach() { device in
-            let menuItem = NSMenuItem(title: device.deviceName, action: #selector(updateInputMenuItem(_:)), keyEquivalent: "")
+        for i in (0 ..< videoDevices.count) {
+            let device = videoDevices[i]
+            
+            let menuItem = NSMenuItem(title: device.deviceName, action: #selector(updateInputMenuItem(_:)), keyEquivalent: i.description)
             menuItem.representedObject = device
             
             menu.items.append(menuItem)

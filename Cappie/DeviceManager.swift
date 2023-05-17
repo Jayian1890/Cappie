@@ -10,6 +10,8 @@ import AVFoundation
 
 class DeviceManager
 {
+    public var MaxFps: Double = 60
+    
     internal init() {
         videoOutput = AVCaptureMovieFileOutput()
         
@@ -38,6 +40,8 @@ class DeviceManager
                 self.addInput(input: input)
                 if (mediaType == .audio) {
                     self.addAudioOutput(deviceUID: interface.device.uniqueID)
+                } else {
+                    self.setFrameRate(device: interface.device)
                 }
                 
             case .notDetermined:
@@ -53,6 +57,34 @@ class DeviceManager
                 
             @unknown default:
                 return
+            }
+        }
+    }
+    
+    func setFrameRate(device: AVCaptureDevice, frameRate: Double = 30)
+    {
+        for vFormat in device.formats {
+            do {
+                let ranges = vFormat.videoSupportedFrameRateRanges as [AVFrameRateRange]
+                let frameRates = ranges[0]
+                
+                if frameRates.maxFrameRate > frameRate
+                {
+                    self.MaxFps = frameRates.maxFrameRate
+                    
+                    try device.lockForConfiguration()
+                    device.activeFormat = vFormat
+                    device.activeVideoMinFrameDuration = CMTimeMake(value: 1, timescale: Int32(frameRate))
+                    device.activeVideoMaxFrameDuration = CMTimeMake(value: 1, timescale: Int32(frameRate))
+                    device.unlockForConfiguration()
+                }
+            } catch {
+                let alert = NSAlert()
+                alert.messageText = "error setting framerate. unsupported"
+                //alert.informativeText = text
+                alert.addButton(withTitle: "Error!")
+                alert.alertStyle = .critical
+                alert.runModal()
             }
         }
     }
