@@ -126,6 +126,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
             videoOutput.stopRecording()
             deviceManager.getSession().removeOutput(videoOutput)
             
+            setWindowSubTitle(subtitle: "")
             fileMenu.items.first(where: {$0.title == "Stop recording"})!.title = "Record to file"
         } else {
             deviceManager.queue.async { [self] in
@@ -144,6 +145,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
                     videoOutput.setOutputSettings([AVVideoCodecKey: AVVideoCodecType.h264], for: connection!)
                     videoOutput.startRecording(to: savePanel.url!, recordingDelegate: self)
                     
+                    setWindowSubTitle(subtitle: "Recording")
                     fileMenu.items.first(where: {$0.title == "Record to file"})!.title = "Stop recording"
                 }
             }
