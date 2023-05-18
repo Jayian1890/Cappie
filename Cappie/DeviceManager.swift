@@ -173,7 +173,7 @@ class DeviceManager
     /// Toggles the current volume on & off
     ///  - Returns:
     ///     void()
-    func toggleMute()
+    func toggleMute() -> Bool
     {
         let output = getAudioOutput()
         
@@ -183,6 +183,8 @@ class DeviceManager
         default:
             mute()
         }
+        
+        return output.volume > 0.0
     }
     
     func addInput(input: AVCaptureDeviceInput?)

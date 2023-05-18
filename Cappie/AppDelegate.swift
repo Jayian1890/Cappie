@@ -108,12 +108,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
     
     @objc func toggleAudio(_ sender: NSMenuItem)
     {
-        if deviceManager.getVolume() > 0 {
+        if (!deviceManager.toggleMute())
+        {
             sender.state = .on
-            deviceManager.mute()
+            setWindowSubTitle(subtitle: "Muted")
         } else {
             sender.state = .off
-            deviceManager.unmute()
+            setWindowSubTitle(subtitle: "")
         }
     }
     
@@ -152,6 +153,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
     private func generateFileName() -> String
     {
         return "cappie-\(NSDate.timeIntervalSinceReferenceDate).mov"
+    }
+    
+    func setWindowSubTitle(subtitle: String) {
+        view.window?.subtitle = subtitle
     }
     
     func applicationWillTerminate(_ aNotification: Notification)
