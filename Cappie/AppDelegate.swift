@@ -31,11 +31,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
         generateMenuItems(menu: videoMenu, mediaType: .video)
         generateMenuItems(menu: audioMenu, mediaType: .audio)
         
-        updateInputMenuItem(videoMenu.items.first!)
-        updateInputMenuItem(audioMenu.items.first!)
+        if (videoMenu.items.count > 1) {
+            updateInputMenuItem(videoMenu.items.first!)
+            updateInputMenuItem(audioMenu.items.first!)
+        }
         
         recordMenu.items.append(.separator())
-        recordMenu.items.append(NSMenuItem(title: "Start", action: #selector(toggleRecoding(_:)), keyEquivalent: "s"))
+        recordMenu.items.append(NSMenuItem(title: "Start", action: #selector(toggleRecoding(_:)), keyEquivalent: "r"))
         
         audioMenu.items.append(.separator())
         audioMenu.items.append(NSMenuItem(title: "Mute", action: #selector(toggleAudio(_:)), keyEquivalent: "m"))
@@ -45,10 +47,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
     {
         let videoDevices = DeviceManager.getAllDevices(mediaType: mediaType)
         
-        for i in (0 ..< videoDevices.count) {
+        for i in (1 ..< videoDevices.count) {
+            let keyEquivalent: String = i < 10 ? i.description : ""
             let device = videoDevices[i]
             
-            let menuItem = NSMenuItem(title: device.deviceName, action: #selector(updateInputMenuItem(_:)), keyEquivalent: i.description)
+            let menuItem = NSMenuItem(title: device.deviceName, action: #selector(updateInputMenuItem(_:)), keyEquivalent: keyEquivalent)
             menuItem.representedObject = device
             
             menu.items.append(menuItem)

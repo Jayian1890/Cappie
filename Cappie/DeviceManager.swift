@@ -61,6 +61,12 @@ class DeviceManager
         }
     }
     
+    /// Sets the frame rate(FPS) of the current capture device.
+    ///  - parameters:
+    ///     - device: The capture device to set the frame rate for.
+    ///     - frameRate: The Frame Rate to be set on the current capture device.
+    ///  - returns:
+    ///     void()
     func setFrameRate(device: AVCaptureDevice, frameRate: Double = 30)
     {
         for vFormat in device.formats {
@@ -89,6 +95,9 @@ class DeviceManager
         }
     }
     
+    /// Requests access to the system's camera devices
+    ///  - returns:
+    ///     void()
     func requestAccess(mediaType: AVMediaType) -> Bool
     {
         var hasAccess: Bool = false
@@ -105,12 +114,18 @@ class DeviceManager
         return hasAccess
     }
     
+    /// Starts the current sessions and begins recording the current assigned preview layer
+    ///  - returns:
+    ///     void()
     func startRunning()
     {
         session.commitConfiguration()
         session.startRunning()
     }
     
+    /// Stops the current session from running.
+    /// - returns:
+    ///     void()
     func stopRunning()
     {
         resetInputs()
