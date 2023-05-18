@@ -16,9 +16,9 @@
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Cappie" customModuleProvider="target">
             <connections>
                 <outlet property="audioMenu" destination="Sgt-ad-HGf" id="Und-XI-r8o"/>
+                <outlet property="fileMenu" destination="bib-Uj-vzu" id="4if-Mp-cFa"/>
                 <outlet property="mainMenu" destination="AYu-sK-qS6" id="jBV-8d-hbj"/>
-                <outlet property="recordMenu" destination="e8t-sP-BHe" id="lAu-xT-XtV"/>
-                <outlet property="videoCodecMenu" destination="e8t-sP-BHe" id="6f5-Q6-E4g"/>
+                <outlet property="settingsMenu" destination="e8t-sP-BHe" id="mLK-Vz-SSr"/>
                 <outlet property="videoMenu" destination="Jla-Tv-YGU" id="50n-DX-lqy"/>
                 <outlet property="view" destination="4tj-tN-bDD" id="lDG-Kl-FYS"/>
             </connections>
@@ -68,9 +68,9 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Audio" id="Sgt-ad-HGf" userLabel="Audio Menu"/>
                 </menuItem>
-                <menuItem title="Recording" id="qMb-HD-74Z">
+                <menuItem title="Settings" id="qMb-HD-74Z">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="Recording" id="e8t-sP-BHe" userLabel="Record Menu"/>
+                    <menu key="submenu" title="Settings" id="e8t-sP-BHe" userLabel="Settings Menu"/>
                 </menuItem>
             </items>
             <point key="canvasLocation" x="200" y="121"/>
@@ -78,7 +78,7 @@
         <window title="Cappie" subtitle="ALPHA v1.0" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <rect key="contentRect" x="210" y="180" width="1024" height="576"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1025"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="875"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="1024" height="576"/>
                 <autoresizingMask key="autoresizingMask"/>

@@ -17,9 +17,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
     
     @IBOutlet var view: NSView!
     @IBOutlet var mainMenu: NSMenu!
+    @IBOutlet var fileMenu: NSMenu!
     @IBOutlet var videoMenu: NSMenu!
     @IBOutlet var audioMenu: NSMenu!
-    @IBOutlet var recordMenu: NSMenu!
+    @IBOutlet var settingsMenu: NSMenu!
     
     var currentVideoDevice: DeviceInterface!
     var currentAudioDevice: DeviceInterface!
@@ -36,18 +37,24 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
             updateInputMenuItem(audioMenu.items.first!)
         }
         
-        recordMenu.items.append(.separator())
-        recordMenu.items.append(NSMenuItem(title: "Start", action: #selector(toggleRecoding(_:)), keyEquivalent: "r"))
+        fileMenu.items.append(.separator())
+        fileMenu.items.append(NSMenuItem(title: "Record to file", action: #selector(toggleRecoding(_:)), keyEquivalent: "r"))
+        fileMenu.items.append(NSMenuItem(title: "Stream to Twitch", action: #selector(startStreaming(_:)), keyEquivalent: "t"))
         
         audioMenu.items.append(.separator())
         audioMenu.items.append(NSMenuItem(title: "Mute", action: #selector(toggleAudio(_:)), keyEquivalent: "m"))
+    }
+    
+    @objc func startStreaming(_ sender: NSMenuItem)
+    {
+        
     }
     
     func generateMenuItems(menu: NSMenu, mediaType: AVMediaType)
     {
         let videoDevices = DeviceManager.getAllDevices(mediaType: mediaType)
         
-        for i in (1 ..< videoDevices.count) {
+        for i in (0 ..< videoDevices.count) {
             let keyEquivalent: String = i < 10 ? i.description : ""
             let device = videoDevices[i]
             
@@ -118,7 +125,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
             videoOutput.stopRecording()
             deviceManager.getSession().removeOutput(videoOutput)
             
-            recordMenu.items.first(where: {$0.title == "Stop"})!.title = "Start"
+            fileMenu.items.first(where: {$0.title == "Stop recording"})!.title = "Record to file"
         } else {
             deviceManager.queue.async { [self] in
                 deviceManager.getSession().addOutput(videoOutput)
@@ -136,7 +143,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
                     videoOutput.setOutputSettings([AVVideoCodecKey: AVVideoCodecType.h264], for: connection!)
                     videoOutput.startRecording(to: savePanel.url!, recordingDelegate: self)
                     
-                    recordMenu.items.first(where: {$0.title == "Start"})!.title = "Stop"
+                    fileMenu.items.first(where: {$0.title == "Record to file"})!.title = "Stop recording"
                 }
             }
         }
