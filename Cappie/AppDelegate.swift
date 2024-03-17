@@ -163,7 +163,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
     
     func applicationWillTerminate(_ aNotification: Notification)
     {
-        // Insert code here to tear down your application
+        deviceManager.stopRunning()
+        print("Cappie: Application will terminate")
     }
     
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool
