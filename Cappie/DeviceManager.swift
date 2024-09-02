@@ -128,9 +128,11 @@ class DeviceManager
     ///     void()
     func stopRunning()
     {
+        print("stopping device manager...")
         resetInputs()
         resetOutputs()
         session.stopRunning()
+        
     }
     
     /// Changes the volume of the curent audio session.
