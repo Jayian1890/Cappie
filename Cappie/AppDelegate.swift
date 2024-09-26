@@ -33,8 +33,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
         generateMenuItems(menu: audioMenu, mediaType: .audio)
         
         if (videoMenu.items.count > 1) {
-            updateInputMenuItem(videoMenu.items.first!)
-            updateInputMenuItem(audioMenu.items.first!)
+            //updateInputMenuItem(videoMenu.items.first!)
+            //updateInputMenuItem(audioMenu.items.first!)
         }
         
         fileMenu.items.append(.separator())

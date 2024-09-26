@@ -10,8 +10,6 @@ import AVFoundation
 
 class DeviceManager
 {
-    public var MaxFps: Double = 60
-    
     internal init() {
         videoOutput = AVCaptureMovieFileOutput()
         
@@ -30,18 +28,17 @@ class DeviceManager
     func configure(interface: DeviceInterface)
     {
         queue.async {
-            let input = try? AVCaptureDeviceInput(device: interface.device)
-            
             let mediaType = interface.mediaType
             
             switch AVCaptureDevice.authorizationStatus(for: mediaType)
             {
             case .authorized:
-                self.addInput(input: input)
-                if (mediaType == .audio) {
+                self.addInput(interface: interface)
+                
+                if (mediaType == .video) {
+                    interface.device.set(frameRate: 60.00)
+                } else if (mediaType == .audio) {
                     self.addAudioOutput(deviceUID: interface.device.uniqueID)
-                } else {
-                    self.setFrameRate(device: interface.device)
                 }
                 
             case .notDetermined:
@@ -57,40 +54,6 @@ class DeviceManager
                 
             @unknown default:
                 return
-            }
-        }
-    }
-    
-    /// Sets the frame rate(FPS) of the current capture device.
-    ///  - parameters:
-    ///     - device: The capture device to set the frame rate for.
-    ///     - frameRate: The Frame Rate to be set on the current capture device.
-    ///  - returns:
-    ///     void()
-    func setFrameRate(device: AVCaptureDevice, frameRate: Double = 30)
-    {
-        for vFormat in device.formats {
-            do {
-                let ranges = vFormat.videoSupportedFrameRateRanges as [AVFrameRateRange]
-                let frameRates = ranges[0]
-                
-                if frameRates.maxFrameRate > frameRate
-                {
-                    self.MaxFps = frameRates.maxFrameRate
-                    
-                    try device.lockForConfiguration()
-                    device.activeFormat = vFormat
-                    device.activeVideoMinFrameDuration = CMTimeMake(value: 1, timescale: Int32(frameRate))
-                    device.activeVideoMaxFrameDuration = CMTimeMake(value: 1, timescale: Int32(frameRate))
-                    device.unlockForConfiguration()
-                }
-            } catch {
-                let alert = NSAlert()
-                alert.messageText = "error setting framerate. unsupported"
-                //alert.informativeText = text
-                alert.addButton(withTitle: "Error!")
-                alert.alertStyle = .critical
-                alert.runModal()
             }
         }
     }
@@ -132,7 +95,6 @@ class DeviceManager
         resetInputs()
         resetOutputs()
         session.stopRunning()
-        
     }
     
     /// Changes the volume of the curent audio session.
@@ -275,4 +237,30 @@ class DeviceManager
         
         return deviceInterfaces.sorted(by: {$0.deviceName > $1.deviceName})
     }
+}
+
+
+/// Sets the frame rate(FPS) of the current capture device.
+///  - parameters:
+///     - frameRate: The Frame Rate to be set on the current capture device.
+///  - returns:
+///     void()
+extension AVCaptureDevice {
+    func set(frameRate: Double) {
+        let ranges = activeFormat.videoSupportedFrameRateRanges
+    guard let range = ranges.first,
+        range.minFrameRate...range.maxFrameRate ~= frameRate
+        else {
+            print("Requested FPS is not supported by the device's activeFormat !")
+            return
+    }
+
+    do { try lockForConfiguration()
+        activeVideoMinFrameDuration = CMTimeMake(value: 1, timescale: Int32(frameRate))
+        activeVideoMaxFrameDuration = CMTimeMake(value: 1, timescale: Int32(frameRate))
+        unlockForConfiguration()
+    } catch {
+        print("LockForConfiguration failed with error: \(error.localizedDescription)")
+    }
+  }
 }
