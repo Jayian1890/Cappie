@@ -18,6 +18,8 @@ class DeviceManager
         session.sessionPreset = preset
     }
     
+    private var frameRate: Double = 60
+    
     private var session: AVCaptureSession
     private var volume: Float = 1
     
@@ -27,31 +29,27 @@ class DeviceManager
     
     func configure(interface: DeviceInterface)
     {
-        queue.async {
+        queue.async
+        {
             let mediaType = interface.mediaType
             
             switch AVCaptureDevice.authorizationStatus(for: mediaType)
             {
             case .authorized:
                 self.addInput(interface: interface)
-                
                 if (mediaType == .video) {
-                    interface.device.set(frameRate: 60.00)
+                    interface.device.set(frameRate: self.frameRate)
                 } else if (mediaType == .audio) {
                     self.addAudioOutput(deviceUID: interface.device.uniqueID)
                 }
-                
             case .notDetermined:
                 if self.requestAccess(mediaType: mediaType) {
                     self.configure(interface: interface)
                 }
-                
             case .restricted:
                 return
-                
             case .denied:
                 return
-                
             @unknown default:
                 return
             }
@@ -246,21 +244,30 @@ class DeviceManager
 ///  - returns:
 ///     void()
 extension AVCaptureDevice {
-    func set(frameRate: Double) {
-        let ranges = activeFormat.videoSupportedFrameRateRanges
-    guard let range = ranges.first,
-        range.minFrameRate...range.maxFrameRate ~= frameRate
-        else {
-            print("Requested FPS is not supported by the device's activeFormat !")
-            return
+    func set(frameRate: Double, width: Int = 1920, height: Int = 1080) {
+        var foundSupportedFormat = false
+        for format in formats {
+            let ranges = format.videoSupportedFrameRateRanges
+            if ranges.first(where: { $0.maxFrameRate >= frameRate }) != nil {
+                let dimensions = CMVideoFormatDescriptionGetDimensions(format.formatDescription)
+                if dimensions.width == width && dimensions.height == height {
+                    let closestFrameRate = ranges.min(by: { abs($0.maxFrameRate - frameRate) < abs($1.maxFrameRate - frameRate) })?.maxFrameRate
+                    do {
+                        try lockForConfiguration()
+                        activeFormat = format
+                        activeVideoMinFrameDuration = CMTimeMake(value: 1, timescale: Int32(closestFrameRate ?? 0))
+                        activeVideoMaxFrameDuration = CMTimeMake(value: 1, timescale: Int32(closestFrameRate ?? 0))
+                        unlockForConfiguration()
+                        foundSupportedFormat = true
+                        break
+                    } catch {
+                        print("Error setting active format: (error.localizedDescription)")
+                    }
+                }
+            }
+        }
+        if !foundSupportedFormat {
+            print("No supported format found for the desired frame rate of (desiredFrameRate) FPS and resolution of (desiredWidth)x(desiredHeight).")
+        }
     }
-
-    do { try lockForConfiguration()
-        activeVideoMinFrameDuration = CMTimeMake(value: 1, timescale: Int32(frameRate))
-        activeVideoMaxFrameDuration = CMTimeMake(value: 1, timescale: Int32(frameRate))
-        unlockForConfiguration()
-    } catch {
-        print("LockForConfiguration failed with error: \(error.localizedDescription)")
-    }
-  }
 }
