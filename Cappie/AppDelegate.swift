@@ -142,7 +142,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, AVCaptureFileOutputRecording
                         return
                     }
                     
-                    videoOutput.setOutputSettings([AVVideoCodecKey: AVVideoCodecType.h264], for: connection!)
+                    //videoOutput.setOutputSettings([AVVideoCodecKey: AVVideoCodecType.h264], for: connection!)
                     videoOutput.startRecording(to: savePanel.url!, recordingDelegate: self)
                     
                     setWindowSubTitle(subtitle: "Recording")

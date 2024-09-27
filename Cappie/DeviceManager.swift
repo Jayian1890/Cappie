@@ -245,18 +245,19 @@ class DeviceManager
 ///     void()
 extension AVCaptureDevice {
     func set(frameRate: Double, width: Int = 1920, height: Int = 1080) {
-        var foundSupportedFormat = false
+        var foundSupportedFormat: Bool = false
         for format in formats {
             let ranges = format.videoSupportedFrameRateRanges
             if ranges.first(where: { $0.maxFrameRate >= frameRate }) != nil {
                 let dimensions = CMVideoFormatDescriptionGetDimensions(format.formatDescription)
                 if dimensions.width == width && dimensions.height == height {
-                    let closestFrameRate = ranges.min(by: { abs($0.maxFrameRate - frameRate) < abs($1.maxFrameRate - frameRate) })?.maxFrameRate
                     do {
                         try lockForConfiguration()
                         activeFormat = format
-                        activeVideoMinFrameDuration = CMTimeMake(value: 1, timescale: Int32(closestFrameRate ?? 0))
-                        activeVideoMaxFrameDuration = CMTimeMake(value: 1, timescale: Int32(closestFrameRate ?? 0))
+                        let minRate = ranges.first?.minFrameDuration.timescale
+                        let maxRate = ranges.first?.maxFrameDuration.timescale
+                        activeVideoMinFrameDuration.timescale = minRate!
+                        activeVideoMaxFrameDuration.timescale = maxRate!
                         unlockForConfiguration()
                         foundSupportedFormat = true
                         break
